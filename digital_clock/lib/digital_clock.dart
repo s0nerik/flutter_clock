@@ -8,6 +8,7 @@ import 'dart:ui';
 import 'package:digital_clock/digit.dart';
 import 'package:digital_clock/ticker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_clock_helper/model.dart';
 import 'package:intl/intl.dart';
@@ -121,6 +122,10 @@ class _DigitalClockState extends State<DigitalClock> {
       color: Colors.black,
       height: MediaQuery.of(context).size.height,
       alignment: Alignment.bottomCenter,
+//      decoration: ShapeDecoration(
+//        image: DecorationImage(image: AssetImage('assets/summer_1.jpg')),
+//        shape: Border(),
+//      ),
       child: Container(
         height: MediaQuery.of(context).size.height / 2,
         alignment: Alignment.center,
@@ -128,6 +133,7 @@ class _DigitalClockState extends State<DigitalClock> {
           builder: (context, constraints) {
             final digitWidth = constraints.maxWidth / 8;
             final digitHeight = 100.0;
+            final digitColor = Colors.white;
             return Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -135,41 +141,41 @@ class _DigitalClockState extends State<DigitalClock> {
                 SizedBox(
                   width: digitWidth,
                   height: digitHeight,
-                  child: Digit(digit: digits[0]),
+                  child: Digit(digit: digits[0], color: digitColor),
                 ),
                 const SizedBox(width: 16),
                 SizedBox(
                   width: digitWidth,
                   height: digitHeight,
-                  child: Digit(digit: digits[1]),
+                  child: Digit(digit: digits[1], color: digitColor),
                 ),
                 SizedBox(
                   width: digitWidth,
                   height: digitHeight,
-                  child: Ticker(),
+                  child: Ticker(color: digitColor),
                 ),
                 SizedBox(
                   width: digitWidth,
                   height: digitHeight,
-                  child: Digit(digit: digits[2]),
+                  child: Digit(digit: digits[2], color: digitColor),
                 ),
                 const SizedBox(width: 16),
                 SizedBox(
                   width: digitWidth,
                   height: digitHeight,
-                  child: Digit(digit: digits[3]),
+                  child: Digit(digit: digits[3], color: digitColor),
                 ),
                 const SizedBox(width: 16),
                 SizedBox(
                   width: digitWidth / 2,
                   height: digitHeight / 2,
-                  child: Digit(digit: digits[4]),
+                  child: Digit(digit: digits[4], color: digitColor),
                 ),
                 const SizedBox(width: 8),
                 SizedBox(
                   width: digitWidth / 2,
                   height: digitHeight / 2,
-                  child: Digit(digit: digits[5]),
+                  child: Digit(digit: digits[5], color: digitColor),
                 ),
               ],
             );
