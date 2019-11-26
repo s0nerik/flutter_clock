@@ -118,70 +118,92 @@ class _DigitalClockState extends State<DigitalClock> {
       int.parse(second[1]),
     ];
 
-    return Container(
-      color: Colors.black,
-      height: MediaQuery.of(context).size.height,
-      alignment: Alignment.bottomCenter,
-//      decoration: ShapeDecoration(
-//        image: DecorationImage(image: AssetImage('assets/summer_1.jpg')),
-//        shape: Border(),
-//      ),
-      child: Container(
-        height: MediaQuery.of(context).size.height / 2,
-        alignment: Alignment.center,
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            final digitWidth = constraints.maxWidth / 8;
-            final digitHeight = 100.0;
-            final digitColor = Colors.white;
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: <Widget>[
-                SizedBox(
-                  width: digitWidth,
-                  height: digitHeight,
-                  child: Digit(digit: digits[0], color: digitColor),
-                ),
-                const SizedBox(width: 16),
-                SizedBox(
-                  width: digitWidth,
-                  height: digitHeight,
-                  child: Digit(digit: digits[1], color: digitColor),
-                ),
-                SizedBox(
-                  width: digitWidth,
-                  height: digitHeight,
-                  child: Ticker(color: digitColor),
-                ),
-                SizedBox(
-                  width: digitWidth,
-                  height: digitHeight,
-                  child: Digit(digit: digits[2], color: digitColor),
-                ),
-                const SizedBox(width: 16),
-                SizedBox(
-                  width: digitWidth,
-                  height: digitHeight,
-                  child: Digit(digit: digits[3], color: digitColor),
-                ),
-                const SizedBox(width: 16),
-                SizedBox(
-                  width: digitWidth / 2,
-                  height: digitHeight / 2,
-                  child: Digit(digit: digits[4], color: digitColor),
-                ),
-                const SizedBox(width: 8),
-                SizedBox(
-                  width: digitWidth / 2,
-                  height: digitHeight / 2,
-                  child: Digit(digit: digits[5], color: digitColor),
-                ),
-              ],
-            );
-          },
+    return Stack(
+      children: [
+        Image.asset(
+          'assets/summer_2.jpg',
+          width: double.infinity,
+          fit: BoxFit.cover,
         ),
-      ),
+        Positioned(
+          bottom: 0,
+          child: ClipRect(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
+              child: Container(
+                height: MediaQuery.of(context).size.height / 2,
+                width: MediaQuery.of(context).size.width,
+                color: Colors.black.withOpacity(0.25),
+              ),
+            ),
+          ),
+        ),
+        Container(
+//          color: Colors.black,
+          height: MediaQuery.of(context).size.height,
+          alignment: Alignment.bottomCenter,
+//          decoration: ShapeDecoration(
+//            image: DecorationImage(image: AssetImage('assets/summer_1.jpg')),
+//            shape: Border(),
+//          ),
+          child: Container(
+            height: MediaQuery.of(context).size.height / 2,
+            alignment: Alignment.center,
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                final digitWidth = constraints.maxWidth / 8;
+                final digitHeight = 100.0;
+                final digitColor = Colors.white;
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    SizedBox(
+                      width: digitWidth,
+                      height: digitHeight,
+                      child: Digit(digit: digits[0], color: digitColor),
+                    ),
+                    const SizedBox(width: 16),
+                    SizedBox(
+                      width: digitWidth,
+                      height: digitHeight,
+                      child: Digit(digit: digits[1], color: digitColor),
+                    ),
+                    SizedBox(
+                      width: digitWidth,
+                      height: digitHeight,
+                      child: Ticker(color: digitColor),
+                    ),
+                    SizedBox(
+                      width: digitWidth,
+                      height: digitHeight,
+                      child: Digit(digit: digits[2], color: digitColor),
+                    ),
+                    const SizedBox(width: 16),
+                    SizedBox(
+                      width: digitWidth,
+                      height: digitHeight,
+                      child: Digit(digit: digits[3], color: digitColor),
+                    ),
+                    const SizedBox(width: 16),
+                    SizedBox(
+                      width: digitWidth / 2,
+                      height: digitHeight / 2,
+                      child: Digit(digit: digits[4], color: digitColor),
+                    ),
+                    const SizedBox(width: 8),
+                    SizedBox(
+                      width: digitWidth / 2,
+                      height: digitHeight / 2,
+                      child: Digit(digit: digits[5], color: digitColor),
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
