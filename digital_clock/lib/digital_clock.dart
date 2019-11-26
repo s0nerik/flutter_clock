@@ -138,6 +138,25 @@ class _DigitalClockState extends State<DigitalClock> {
             ),
           ),
         ),
+//        Positioned(
+//          bottom: 0,
+//          child: ShaderMask(
+//            shaderCallback: (rect) {
+//              return LinearGradient(
+//                begin: Alignment.topCenter,
+//                end: Alignment.bottomCenter,
+//                stops: [0, 0.5],
+//                colors: [Colors.transparent, Colors.black],
+//              ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
+//            },
+//            blendMode: BlendMode.dstIn,
+//            child: Container(
+//              height: MediaQuery.of(context).size.height / 2,
+//              width: MediaQuery.of(context).size.width,
+//              color: Colors.black.withOpacity(0.5),
+//            ),
+//          ),
+//        ),
         Container(
 //          color: Colors.black,
           height: MediaQuery.of(context).size.height,
