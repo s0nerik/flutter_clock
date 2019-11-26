@@ -3,9 +3,13 @@
 // found in the LICENSE file.
 
 import 'dart:async';
+import 'dart:ui';
 
-import 'package:flutter_clock_helper/model.dart';
+import 'package:digital_clock/digit.dart';
+import 'package:digital_clock/ticker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_clock_helper/model.dart';
 import 'package:intl/intl.dart';
 
 enum _Element {
@@ -45,6 +49,7 @@ class _DigitalClockState extends State<DigitalClock> {
   @override
   void initState() {
     super.initState();
+    SystemChrome.setEnabledSystemUIOverlays([]);
     widget.model.addListener(_updateModel);
     _updateTime();
     _updateModel();
@@ -78,18 +83,18 @@ class _DigitalClockState extends State<DigitalClock> {
       _dateTime = DateTime.now();
       // Update once per minute. If you want to update every second, use the
       // following code.
-      _timer = Timer(
-        Duration(minutes: 1) -
-            Duration(seconds: _dateTime.second) -
-            Duration(milliseconds: _dateTime.millisecond),
-        _updateTime,
-      );
+//      _timer = Timer(
+//        Duration(minutes: 1) -
+//            Duration(seconds: _dateTime.second) -
+//            Duration(milliseconds: _dateTime.millisecond),
+//        _updateTime,
+//      );
       // Update once per second, but make sure to do it at the beginning of each
       // new second, so that the clock is accurate.
-      // _timer = Timer(
-      //   Duration(seconds: 1) - Duration(milliseconds: _dateTime.millisecond),
-      //   _updateTime,
-      // );
+      _timer = Timer(
+        Duration(seconds: 1) - Duration(milliseconds: _dateTime.millisecond),
+        _updateTime,
+      );
     });
   }
 
@@ -101,32 +106,74 @@ class _DigitalClockState extends State<DigitalClock> {
     final hour =
         DateFormat(widget.model.is24HourFormat ? 'HH' : 'hh').format(_dateTime);
     final minute = DateFormat('mm').format(_dateTime);
-    final fontSize = MediaQuery.of(context).size.width / 3.5;
-    final offset = -fontSize / 7;
-    final defaultStyle = TextStyle(
-      color: colors[_Element.text],
-      fontFamily: 'PressStart2P',
-      fontSize: fontSize,
-      shadows: [
-        Shadow(
-          blurRadius: 0,
-          color: colors[_Element.shadow],
-          offset: Offset(10, 0),
-        ),
-      ],
-    );
+    final second = DateFormat('ss').format(_dateTime);
+
+    final digits = <int>[
+      int.parse(hour[0]),
+      int.parse(hour[1]),
+      int.parse(minute[0]),
+      int.parse(minute[1]),
+      int.parse(second[0]),
+      int.parse(second[1]),
+    ];
 
     return Container(
-      color: colors[_Element.background],
-      child: Center(
-        child: DefaultTextStyle(
-          style: defaultStyle,
-          child: Stack(
-            children: <Widget>[
-              Positioned(left: offset, top: 0, child: Text(hour)),
-              Positioned(right: offset, bottom: offset, child: Text(minute)),
-            ],
-          ),
+      color: Colors.black,
+      height: MediaQuery.of(context).size.height,
+      alignment: Alignment.bottomCenter,
+      child: Container(
+        height: MediaQuery.of(context).size.height / 2,
+        alignment: Alignment.center,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final digitWidth = constraints.maxWidth / 8;
+            final digitHeight = 100.0;
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: <Widget>[
+                SizedBox(
+                  width: digitWidth,
+                  height: digitHeight,
+                  child: Digit(digit: digits[0]),
+                ),
+                const SizedBox(width: 16),
+                SizedBox(
+                  width: digitWidth,
+                  height: digitHeight,
+                  child: Digit(digit: digits[1]),
+                ),
+                SizedBox(
+                  width: digitWidth,
+                  height: digitHeight,
+                  child: Ticker(),
+                ),
+                SizedBox(
+                  width: digitWidth,
+                  height: digitHeight,
+                  child: Digit(digit: digits[2]),
+                ),
+                const SizedBox(width: 16),
+                SizedBox(
+                  width: digitWidth,
+                  height: digitHeight,
+                  child: Digit(digit: digits[3]),
+                ),
+                const SizedBox(width: 16),
+                SizedBox(
+                  width: digitWidth / 2,
+                  height: digitHeight / 2,
+                  child: Digit(digit: digits[4]),
+                ),
+                const SizedBox(width: 8),
+                SizedBox(
+                  width: digitWidth / 2,
+                  height: digitHeight / 2,
+                  child: Digit(digit: digits[5]),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
