@@ -1,226 +1,24 @@
-// Copyright 2019 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
-import 'dart:async';
-import 'dart:ui';
-
-import 'package:digital_clock/digit.dart';
-import 'package:digital_clock/ticker.dart';
+import 'package:digital_clock/digits.dart';
+import 'package:digital_clock/layers/background.dart';
+import 'package:digital_clock/layers/foreground.dart';
+import 'package:digital_clock/model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_clock_helper/model.dart';
-import 'package:intl/intl.dart';
 
-enum _Element {
-  background,
-  text,
-  shadow,
-}
-
-final _lightTheme = {
-  _Element.background: Color(0xFF81B3FE),
-  _Element.text: Colors.white,
-  _Element.shadow: Colors.black,
-};
-
-final _darkTheme = {
-  _Element.background: Colors.black,
-  _Element.text: Colors.white,
-  _Element.shadow: Color(0xFF174EA6),
-};
-
-/// A basic digital clock.
-///
-/// You can do better than this!
-class DigitalClock extends StatefulWidget {
-  const DigitalClock(this.model);
-
-  final ClockModel model;
-
-  @override
-  _DigitalClockState createState() => _DigitalClockState();
-}
-
-class _DigitalClockState extends State<DigitalClock> {
-  DateTime _dateTime = DateTime.now();
-  Timer _timer;
-
-  @override
-  void initState() {
-    super.initState();
-    SystemChrome.setEnabledSystemUIOverlays([]);
-    widget.model.addListener(_updateModel);
-    _updateTime();
-    _updateModel();
-  }
-
-  @override
-  void didUpdateWidget(DigitalClock oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.model != oldWidget.model) {
-      oldWidget.model.removeListener(_updateModel);
-      widget.model.addListener(_updateModel);
-    }
-  }
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    widget.model.removeListener(_updateModel);
-    widget.model.dispose();
-    super.dispose();
-  }
-
-  void _updateModel() {
-    setState(() {
-      // Cause the clock to rebuild when the model changes.
-    });
-  }
-
-  void _updateTime() {
-    setState(() {
-      _dateTime = DateTime.now();
-      // Update once per minute. If you want to update every second, use the
-      // following code.
-//      _timer = Timer(
-//        Duration(minutes: 1) -
-//            Duration(seconds: _dateTime.second) -
-//            Duration(milliseconds: _dateTime.millisecond),
-//        _updateTime,
-//      );
-      // Update once per second, but make sure to do it at the beginning of each
-      // new second, so that the clock is accurate.
-      _timer = Timer(
-        Duration(seconds: 1) - Duration(milliseconds: _dateTime.millisecond),
-        _updateTime,
-      );
-    });
-  }
-
+class DigitalClock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).brightness == Brightness.light
-        ? _lightTheme
-        : _darkTheme;
-    final hour =
-        DateFormat(widget.model.is24HourFormat ? 'HH' : 'hh').format(_dateTime);
-    final minute = DateFormat('mm').format(_dateTime);
-    final second = DateFormat('ss').format(_dateTime);
-
-    final digits = <int>[
-      int.parse(hour[0]),
-      int.parse(hour[1]),
-      int.parse(minute[0]),
-      int.parse(minute[1]),
-      int.parse(second[0]),
-      int.parse(second[1]),
-    ];
+    SystemChrome.setEnabledSystemUIOverlays(const []);
 
     return Stack(
+      alignment: Alignment.bottomCenter,
       children: [
-        Image.asset(
-          'assets/summer_2.jpg',
-          width: double.infinity,
-          fit: BoxFit.cover,
-        ),
-        Positioned(
-          bottom: 0,
-          child: ClipRect(
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
-              child: Container(
-                height: MediaQuery.of(context).size.height / 2,
-                width: MediaQuery.of(context).size.width,
-                color: Colors.black.withOpacity(0.25),
-              ),
-            ),
-          ),
-        ),
-//        Positioned(
-//          bottom: 0,
-//          child: ShaderMask(
-//            shaderCallback: (rect) {
-//              return LinearGradient(
-//                begin: Alignment.topCenter,
-//                end: Alignment.bottomCenter,
-//                stops: [0, 0.5],
-//                colors: [Colors.transparent, Colors.black],
-//              ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
-//            },
-//            blendMode: BlendMode.dstIn,
-//            child: Container(
-//              height: MediaQuery.of(context).size.height / 2,
-//              width: MediaQuery.of(context).size.width,
-//              color: Colors.black.withOpacity(0.5),
-//            ),
-//          ),
-//        ),
+        Background(season: Season.summer),
+        Foreground(season: Season.summer),
         Container(
-//          color: Colors.black,
-          height: MediaQuery.of(context).size.height,
-          alignment: Alignment.bottomCenter,
-//          decoration: ShapeDecoration(
-//            image: DecorationImage(image: AssetImage('assets/summer_1.jpg')),
-//            shape: Border(),
-//          ),
-          child: Container(
-            height: MediaQuery.of(context).size.height / 2,
-            alignment: Alignment.center,
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                final digitWidth = constraints.maxWidth / 8;
-                final digitHeight = 100.0;
-                final digitColor = Colors.white;
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: <Widget>[
-                    SizedBox(
-                      width: digitWidth,
-                      height: digitHeight,
-                      child: Digit(digit: digits[0], color: digitColor),
-                    ),
-                    const SizedBox(width: 16),
-                    SizedBox(
-                      width: digitWidth,
-                      height: digitHeight,
-                      child: Digit(digit: digits[1], color: digitColor),
-                    ),
-                    SizedBox(
-                      width: digitWidth,
-                      height: digitHeight,
-                      child: Ticker(color: digitColor),
-                    ),
-                    SizedBox(
-                      width: digitWidth,
-                      height: digitHeight,
-                      child: Digit(digit: digits[2], color: digitColor),
-                    ),
-                    const SizedBox(width: 16),
-                    SizedBox(
-                      width: digitWidth,
-                      height: digitHeight,
-                      child: Digit(digit: digits[3], color: digitColor),
-                    ),
-                    const SizedBox(width: 16),
-                    SizedBox(
-                      width: digitWidth / 2,
-                      height: digitHeight / 2,
-                      child: Digit(digit: digits[4], color: digitColor),
-                    ),
-                    const SizedBox(width: 8),
-                    SizedBox(
-                      width: digitWidth / 2,
-                      height: digitHeight / 2,
-                      child: Digit(digit: digits[5], color: digitColor),
-                    ),
-                  ],
-                );
-              },
-            ),
-          ),
+          height: MediaQuery.of(context).size.height / 2.25,
+          alignment: Alignment.center,
+          child: Digits(),
         ),
       ],
     );
