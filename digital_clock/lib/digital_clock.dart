@@ -1,4 +1,4 @@
-import 'package:digital_clock/digits.dart';
+import 'package:digital_clock/layers/digits.dart';
 import 'package:digital_clock/layers/background.dart';
 import 'package:digital_clock/layers/foreground.dart';
 import 'package:digital_clock/layers/rain.dart';

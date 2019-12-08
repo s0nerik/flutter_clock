@@ -1,7 +1,6 @@
 import 'dart:async';
 
-import 'package:digital_clock/digit.dart';
-import 'package:digital_clock/ticker.dart';
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clock_helper/model.dart';
 import 'package:intl/intl.dart';
@@ -68,45 +67,95 @@ class _DigitsState extends State<Digits> {
             SizedBox(
               width: digitWidth,
               height: digitHeight,
-              child: Digit(digit: digits[0], color: digitColor),
+              child: _Digit(digit: digits[0], color: digitColor),
             ),
             const SizedBox(width: 16),
             SizedBox(
               width: digitWidth,
               height: digitHeight,
-              child: Digit(digit: digits[1], color: digitColor),
+              child: _Digit(digit: digits[1], color: digitColor),
             ),
             SizedBox(
               width: digitWidth,
               height: digitHeight,
-              child: Ticker(color: digitColor),
+              child: _Ticker(color: digitColor),
             ),
             SizedBox(
               width: digitWidth,
               height: digitHeight,
-              child: Digit(digit: digits[2], color: digitColor),
+              child: _Digit(digit: digits[2], color: digitColor),
             ),
             const SizedBox(width: 16),
             SizedBox(
               width: digitWidth,
               height: digitHeight,
-              child: Digit(digit: digits[3], color: digitColor),
+              child: _Digit(digit: digits[3], color: digitColor),
             ),
             const SizedBox(width: 16),
             SizedBox(
               width: digitWidth / 2,
               height: digitHeight / 2,
-              child: Digit(digit: digits[4], color: digitColor),
+              child: _Digit(digit: digits[4], color: digitColor),
             ),
             const SizedBox(width: 8),
             SizedBox(
               width: digitWidth / 2,
               height: digitHeight / 2,
-              child: Digit(digit: digits[5], color: digitColor),
+              child: _Digit(digit: digits[5], color: digitColor),
             ),
           ],
         );
       },
+    );
+  }
+}
+
+class _Digit extends StatelessWidget {
+  const _Digit({
+    Key key,
+    @required this.digit,
+    this.color,
+    this.callback,
+  }) : super(key: key);
+
+  final int digit;
+  final Color color;
+  final Function(String) callback;
+
+  @override
+  Widget build(BuildContext context) {
+    return KeyedSubtree(
+      key: ValueKey<int>(digit),
+      child: FlareActor(
+        'assets/numbers.flr',
+        artboard: 'Anim',
+        animation: '${(digit - 1) % 10} -> $digit',
+        alignment: Alignment.center,
+        fit: BoxFit.contain,
+        callback: callback,
+        color: color,
+      ),
+    );
+  }
+}
+
+class _Ticker extends StatelessWidget {
+  const _Ticker({
+    Key key,
+    this.color,
+  }) : super(key: key);
+
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return FlareActor(
+      'assets/numbers.flr',
+      artboard: 'Ticker',
+      animation: 'tick',
+      alignment: Alignment.center,
+      fit: BoxFit.contain,
+      color: color,
     );
   }
 }
