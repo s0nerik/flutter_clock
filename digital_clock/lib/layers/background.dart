@@ -13,7 +13,7 @@ class Background extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FlareActor(
-      'assets/layers.flr',
+      'assets/__bg__.flr',
       artboard: _artboard(season),
     );
   }

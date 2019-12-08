@@ -4,6 +4,7 @@
 
 import 'dart:io';
 
+import 'package:digital_clock/playground.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clock_helper/customizer.dart';
@@ -21,6 +22,16 @@ void main() {
     // See https://github.com/flutter/flutter/wiki/Desktop-shells#target-platform-override.
     debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
   }
+
+//  runApp(
+//    ClockCustomizer(
+//      (ClockModel model) => ChangeNotifierProvider.value(
+//        value: model,
+//        child: Playground(),
+//      ),
+//    ),
+//  );
+//  return;
 
   runApp(
     ClockCustomizer(

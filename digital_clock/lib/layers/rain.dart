@@ -6,24 +6,25 @@ import 'package:flutter/material.dart';
 class Rain extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      const horizontalStep = 16.0;
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        const raindropStep = 16.0;
+        final raindrops = <Widget>[];
+        for (var x = 0.0; x < constraints.maxWidth; x += raindropStep) {
+          raindrops.add(
+            Padding(
+              padding: EdgeInsets.only(left: x),
+              child: Raindrop(index: x ~/ raindropStep),
+            ),
+          );
+        }
 
-      final raindrops = <Widget>[];
-      for (var x = 0.0; x < constraints.maxWidth; x += horizontalStep) {
-        raindrops.add(
-          Padding(
-            padding: EdgeInsets.only(left: x),
-            child: Raindrop(index: x ~/ horizontalStep),
-          ),
+        return Stack(
+          alignment: Alignment.topLeft,
+          children: raindrops,
         );
-      }
-
-      return Stack(
-        alignment: Alignment.topLeft,
-        children: raindrops,
-      );
-    });
+      },
+    );
   }
 }
 
