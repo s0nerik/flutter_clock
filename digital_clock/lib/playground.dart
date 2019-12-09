@@ -18,7 +18,7 @@ class Playground extends StatelessWidget {
       color: Colors.black,
       child: Center(
         child: Cloud(
-          index: 1,
+          typeIndex: 1,
           animationType: AnimationType.idle,
         ),
       ),

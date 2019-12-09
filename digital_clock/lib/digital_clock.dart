@@ -22,7 +22,6 @@ class DigitalClock extends StatelessWidget {
         ),
         Container(
           height: MediaQuery.of(context).size.height / 2,
-          padding: EdgeInsets.only(left: 16, right: 16, top: 8),
           child: Clouds(),
         ),
         Foreground(season: Season.summer),
