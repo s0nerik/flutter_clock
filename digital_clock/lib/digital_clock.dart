@@ -2,7 +2,7 @@ import 'package:digital_clock/layers/clouds.dart';
 import 'package:digital_clock/layers/digits.dart';
 import 'package:digital_clock/layers/background.dart';
 import 'package:digital_clock/layers/foreground.dart';
-import 'package:digital_clock/layers/rain.dart';
+import 'package:digital_clock/layers/weather/rain.dart';
 import 'package:digital_clock/model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
