@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 typedef ParticlePainterBuilder = CustomPainter Function(
-    Color color, double animationProgress);
+    int index, Color color, double animationProgress);
 
 class WeatherParticleAnimator extends StatelessWidget {
   const WeatherParticleAnimator({
@@ -19,29 +19,33 @@ class WeatherParticleAnimator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final raindrops = <Widget>[];
-        final maxValue = axis == Axis.vertical
-            ? constraints.maxWidth
-            : constraints.maxHeight;
-        for (var i = 0.0; i < maxValue; i += step) {
-          raindrops.add(
-            Padding(
-              padding: EdgeInsets.only(left: i),
-              child: _Particle(
-                index: i ~/ step,
-                particleBuilder: particleBuilder,
+    return ClipRect(
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final particles = <Widget>[];
+          final maxValue = axis == Axis.vertical
+              ? constraints.maxWidth
+              : constraints.maxHeight;
+          for (var i = 0.0; i < maxValue; i += step) {
+            particles.add(
+              Padding(
+                padding: axis == Axis.vertical
+                    ? EdgeInsets.only(left: i)
+                    : EdgeInsets.only(top: i),
+                child: _Particle(
+                  index: i ~/ step,
+                  particleBuilder: particleBuilder,
+                ),
               ),
-            ),
-          );
-        }
+            );
+          }
 
-        return Stack(
-          alignment: Alignment.topLeft,
-          children: raindrops,
-        );
-      },
+          return Stack(
+            alignment: Alignment.topLeft,
+            children: particles,
+          );
+        },
+      ),
     );
   }
 }
@@ -92,7 +96,8 @@ class _ParticleState extends State<_Particle>
         animation: anim,
         builder: (context, _) => CustomPaint(
           size: Size(constraints.maxWidth, constraints.maxHeight),
-          painter: widget.particleBuilder(Colors.white, anim.value),
+          painter:
+              widget.particleBuilder(widget.index, Colors.white, anim.value),
         ),
       ),
     );

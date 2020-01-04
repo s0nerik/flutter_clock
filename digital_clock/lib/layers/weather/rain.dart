@@ -7,7 +7,7 @@ class Rain extends StatelessWidget {
     return WeatherParticleAnimator(
       axis: Axis.vertical,
       step: 16,
-      particleBuilder: (color, progress) => _RaindropPainter(
+      particleBuilder: (_, color, progress) => _RaindropPainter(
         color: color,
         progress: progress,
       ),

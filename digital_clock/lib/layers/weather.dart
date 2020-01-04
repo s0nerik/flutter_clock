@@ -1,4 +1,6 @@
 import 'package:digital_clock/layers/weather/rain.dart';
+import 'package:digital_clock/layers/weather/snow.dart';
+import 'package:digital_clock/layers/weather/wind.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clock_helper/model.dart';
 
@@ -27,8 +29,7 @@ Widget _buildBackground(WeatherCondition weatherCondition) {
     case WeatherCondition.rainy:
       return Rain();
     case WeatherCondition.snowy:
-      // TODO: Handle this case.
-      break;
+      return Snow();
     case WeatherCondition.sunny:
       // TODO: Handle this case.
       break;
@@ -36,8 +37,7 @@ Widget _buildBackground(WeatherCondition weatherCondition) {
       // TODO: Handle this case.
       break;
     case WeatherCondition.windy:
-      // TODO: Handle this case.
-      break;
+      return Wind();
   }
   return const SizedBox.shrink();
 }

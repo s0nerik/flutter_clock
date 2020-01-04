@@ -1,13 +1,13 @@
 import 'package:digital_clock/layers/weather/weather_particle_animator.dart';
 import 'package:flutter/material.dart';
 
-class Snow extends StatelessWidget {
+class Wind extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WeatherParticleAnimator(
-      axis: Axis.vertical,
+      axis: Axis.horizontal,
       step: 16,
-      particleBuilder: (_, color, progress) => _SnowflakePainter(
+      particleBuilder: (index, color, progress) => _WindPainter(
         color: color,
         progress: progress,
       ),
@@ -15,10 +15,11 @@ class Snow extends StatelessWidget {
   }
 }
 
-const _snowflakeWidth = 8.0;
+const _windStreamWidth = _windStreamHeight * 16.0;
+const _windStreamHeight = 8.0;
 
-class _SnowflakePainter extends CustomPainter {
-  _SnowflakePainter({
+class _WindPainter extends CustomPainter {
+  _WindPainter({
     @required this.color,
     @required this.progress,
   });
@@ -29,11 +30,13 @@ class _SnowflakePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()..color = color.withOpacity(1 - progress);
+    final rect = RRect.fromLTRBR(0, 0, _windStreamWidth, _windStreamHeight,
+        Radius.circular(_windStreamWidth / 2));
 
     canvas.save();
-    canvas.translate(0, size.height * progress);
-    canvas.drawCircle(
-        Offset(_snowflakeWidth / 2, size.height * progress), 8, paint);
+    canvas.translate(
+        size.width * progress - _windStreamWidth * (1 - progress), 0);
+    canvas.drawRRect(rect, paint);
     canvas.restore();
   }
 
