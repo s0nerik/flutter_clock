@@ -22,7 +22,7 @@ class _SlideshowState extends State<Slideshow> {
   @override
   void initState() {
     super.initState();
-    _timer = Timer.periodic(const Duration(seconds: 5), (t) {
+    _timer = Timer.periodic(const Duration(seconds: 15), (t) {
       setState(() {
         _imgIndex = t.tick;
         _crossFadeState = t.tick % 2 == 0

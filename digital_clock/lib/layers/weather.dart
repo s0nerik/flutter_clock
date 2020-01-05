@@ -1,3 +1,4 @@
+import 'package:digital_clock/layers/weather/foggy.dart';
 import 'package:digital_clock/layers/weather/rain.dart';
 import 'package:digital_clock/layers/weather/snow.dart';
 import 'package:digital_clock/layers/weather/wind.dart';
@@ -24,8 +25,7 @@ Widget _buildBackground(WeatherCondition weatherCondition) {
       // TODO: Handle this case.
       break;
     case WeatherCondition.foggy:
-      // TODO: Handle this case.
-      break;
+      return Foggy();
     case WeatherCondition.rainy:
       return Rain();
     case WeatherCondition.snowy:

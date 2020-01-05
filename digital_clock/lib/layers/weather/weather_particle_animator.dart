@@ -75,7 +75,7 @@ class _ParticleState extends State<_Particle>
     _rnd = Random(widget.index);
     _ctrl = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 1000 + _rnd.nextInt(1000)),
+      duration: Duration(milliseconds: 4000 + _rnd.nextInt(1000)),
     );
     _ctrl.repeat();
   }

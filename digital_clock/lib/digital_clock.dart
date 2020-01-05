@@ -1,6 +1,5 @@
 import 'package:digital_clock/layers/background.dart';
 import 'package:digital_clock/layers/digits.dart';
-import 'package:digital_clock/layers/foreground.dart';
 import 'package:digital_clock/layers/weather.dart';
 import 'package:digital_clock/model.dart';
 import 'package:flutter/material.dart';
@@ -15,10 +14,11 @@ class DigitalClock extends StatelessWidget {
     return Stack(
       children: [
         Background(season: Season.summer),
+//        Slideshow(),
         Container(
           height: MediaQuery.of(context).size.height / 2,
           child: Weather(
-            weatherCondition: WeatherCondition.windy,
+            weatherCondition: WeatherCondition.foggy,
 //            weatherCondition: Provider.of<ClockModel>(context).weatherCondition,
           ),
         ),
@@ -26,7 +26,7 @@ class DigitalClock extends StatelessWidget {
 //          height: MediaQuery.of(context).size.height / 2,
 //          child: Clouds(),
 //        ),
-        Foreground(season: Season.summer),
+//        Foreground(season: Season.summer),
         Container(
           alignment: Alignment.bottomCenter,
           child: Container(
