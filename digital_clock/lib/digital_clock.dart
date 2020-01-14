@@ -18,7 +18,7 @@ class DigitalClock extends StatelessWidget {
         Container(
           height: MediaQuery.of(context).size.height / 2,
           child: Weather(
-            weatherCondition: WeatherCondition.foggy,
+            weatherCondition: WeatherCondition.thunderstorm,
 //            weatherCondition: Provider.of<ClockModel>(context).weatherCondition,
           ),
         ),
