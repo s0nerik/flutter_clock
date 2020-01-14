@@ -11,11 +11,17 @@ class WeatherParticleAnimator extends StatelessWidget {
     @required this.particleBuilder,
     @required this.axis,
     @required this.step,
-  }) : super(key: key);
+    this.minAnimDuration = const Duration(seconds: 4),
+    this.maxAnimDuration = const Duration(seconds: 6),
+  })  : assert(minAnimDuration != null && maxAnimDuration != null ||
+            minAnimDuration == null && maxAnimDuration == null),
+        super(key: key);
 
   final ParticlePainterBuilder particleBuilder;
   final Axis axis;
   final double step;
+  final Duration minAnimDuration;
+  final Duration maxAnimDuration;
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +41,8 @@ class WeatherParticleAnimator extends StatelessWidget {
                 child: _Particle(
                   index: i ~/ step,
                   particleBuilder: particleBuilder,
+                  minAnimDuration: minAnimDuration,
+                  maxAnimDuration: maxAnimDuration,
                 ),
               ),
             );
@@ -55,10 +63,15 @@ class _Particle extends StatefulWidget {
     Key key,
     @required this.index,
     @required this.particleBuilder,
-  }) : super(key: key);
+    @required this.minAnimDuration,
+    @required this.maxAnimDuration,
+  })  : assert(minAnimDuration <= maxAnimDuration),
+        super(key: key);
 
   final int index;
   final ParticlePainterBuilder particleBuilder;
+  final Duration minAnimDuration;
+  final Duration maxAnimDuration;
 
   @override
   _ParticleState createState() => _ParticleState();
@@ -73,11 +86,29 @@ class _ParticleState extends State<_Particle>
   void initState() {
     super.initState();
     _rnd = Random(widget.index);
+    _initAnimController();
+  }
+
+  void _initAnimController() {
+    _ctrl?.dispose();
+    final durationDiff = widget.maxAnimDuration - widget.minAnimDuration;
     _ctrl = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 4000 + _rnd.nextInt(1000)),
+      duration: Duration(
+          milliseconds: widget.minAnimDuration.inMilliseconds +
+              _rnd.nextInt(durationDiff.inMilliseconds + 1)),
     );
     _ctrl.repeat();
+  }
+
+  @override
+  void didUpdateWidget(_Particle oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.index != widget.index ||
+        oldWidget.minAnimDuration != widget.minAnimDuration ||
+        oldWidget.maxAnimDuration != widget.maxAnimDuration) {
+      _initAnimController();
+    }
   }
 
   @override

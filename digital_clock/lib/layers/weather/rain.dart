@@ -7,6 +7,8 @@ class Rain extends StatelessWidget {
     return WeatherParticleAnimator(
       axis: Axis.vertical,
       step: 16,
+      minAnimDuration: const Duration(milliseconds: 500),
+      maxAnimDuration: const Duration(seconds: 1),
       particleBuilder: (_, color, progress) => _RaindropPainter(
         color: color,
         progress: progress,
@@ -29,7 +31,14 @@ class _RaindropPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()..color = color.withOpacity(1 - progress);
+    double opacity;
+    if (progress < 0.2) {
+      opacity = progress * 5;
+    } else {
+      opacity = 1 - progress;
+    }
+
+    final paint = Paint()..color = color.withOpacity(opacity);
     final rect = RRect.fromLTRBR(0, 0, _raindropWidth, _raindropHeight,
         Radius.circular(_raindropWidth / 2));
 
