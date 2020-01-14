@@ -15,6 +15,10 @@ class Background extends StatelessWidget {
     ColorTween(begin: Color(0xffD38312), end: Colors.lightBlue.shade900);
     ColorTween(begin: Color(0xffA83279), end: Colors.blue.shade600);
 
+    return Container(
+      color: Colors.black,
+    );
+
     return FlareActor(
       'assets/__bg__.flr',
       artboard: _artboard(season),
