@@ -25,35 +25,33 @@ class WeatherParticleAnimator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRect(
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          final particles = <Widget>[];
-          final maxValue = axis == Axis.vertical
-              ? constraints.maxWidth
-              : constraints.maxHeight;
-          for (var i = 0.0; i < maxValue; i += step) {
-            particles.add(
-              Padding(
-                padding: axis == Axis.vertical
-                    ? EdgeInsets.only(left: i)
-                    : EdgeInsets.only(top: i),
-                child: _Particle(
-                  index: i ~/ step,
-                  particleBuilder: particleBuilder,
-                  minAnimDuration: minAnimDuration,
-                  maxAnimDuration: maxAnimDuration,
-                ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final particles = <Widget>[];
+        final maxValue = axis == Axis.vertical
+            ? constraints.maxWidth
+            : constraints.maxHeight;
+        for (var i = 0.0; i < maxValue; i += step) {
+          particles.add(
+            Padding(
+              padding: axis == Axis.vertical
+                  ? EdgeInsets.only(left: i)
+                  : EdgeInsets.only(top: i),
+              child: _Particle(
+                index: i ~/ step,
+                particleBuilder: particleBuilder,
+                minAnimDuration: minAnimDuration,
+                maxAnimDuration: maxAnimDuration,
               ),
-            );
-          }
-
-          return Stack(
-            alignment: Alignment.topLeft,
-            children: particles,
+            ),
           );
-        },
-      ),
+        }
+
+        return Stack(
+          alignment: Alignment.topLeft,
+          children: particles,
+        );
+      },
     );
   }
 }
