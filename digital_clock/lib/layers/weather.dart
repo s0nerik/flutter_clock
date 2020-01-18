@@ -2,6 +2,7 @@ import 'package:digital_clock/layers/weather/cloudy.dart';
 import 'package:digital_clock/layers/weather/foggy.dart';
 import 'package:digital_clock/layers/weather/rain.dart';
 import 'package:digital_clock/layers/weather/snow.dart';
+import 'package:digital_clock/layers/weather/sunny.dart';
 import 'package:digital_clock/layers/weather/thunderstorm.dart';
 import 'package:digital_clock/layers/weather/wind.dart';
 import 'package:flutter/material.dart';
@@ -32,8 +33,7 @@ Widget _buildBackground(WeatherCondition weatherCondition) {
     case WeatherCondition.snowy:
       return Snow();
     case WeatherCondition.sunny:
-      // TODO: Handle this case.
-      break;
+      return Sunny();
     case WeatherCondition.thunderstorm:
       return Thunderstorm();
     case WeatherCondition.windy:
