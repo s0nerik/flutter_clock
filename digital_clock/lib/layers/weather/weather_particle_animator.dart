@@ -58,24 +58,18 @@ class WeatherParticleAnimator extends StatelessWidget {
               : constraints.maxHeight;
           for (var i = 0.0; i < maxDimen; i += step) {
             particles.add(
-              Padding(
-                padding: axis == Axis.vertical
-                    ? EdgeInsets.only(left: i)
-                    : EdgeInsets.only(top: i),
-                child: _Particle(
-                  index: i ~/ step,
-                  particleBuilder: particleBuilder,
-                  minAnimDuration: minAnimDuration,
-                  maxAnimDuration: maxAnimDuration,
-                  minAnimDelay: minAnimDelay,
-                  maxAnimDelay: maxAnimDelay,
-                ),
+              _Particle(
+                index: i ~/ step,
+                particleBuilder: particleBuilder,
+                minAnimDuration: minAnimDuration,
+                maxAnimDuration: maxAnimDuration,
+                minAnimDelay: minAnimDelay,
+                maxAnimDelay: maxAnimDelay,
               ),
             );
           }
 
           return Stack(
-            alignment: Alignment.topLeft,
             children: particles,
           );
         },

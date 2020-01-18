@@ -6,7 +6,7 @@ class Wind extends StatelessWidget {
   Widget build(BuildContext context) {
     return WeatherParticleAnimator(
       axis: Axis.horizontal,
-      step: 16,
+      step: _windStreamStep,
       particleBuilder: (index, color, progress) => _WindPainter(
         color: color,
         progress: progress,
@@ -15,15 +15,18 @@ class Wind extends StatelessWidget {
   }
 }
 
+const _windStreamStep = 16.0;
 const _windStreamWidth = _windStreamHeight * 16.0;
 const _windStreamHeight = 8.0;
 
 class _WindPainter extends CustomPainter {
   _WindPainter({
+    @required this.index,
     @required this.color,
     @required this.progress,
   });
 
+  final int index;
   final Color color;
   final double progress;
 
@@ -34,8 +37,8 @@ class _WindPainter extends CustomPainter {
         Radius.circular(_windStreamWidth / 2));
 
     canvas.save();
-    canvas.translate(
-        size.width * progress - _windStreamWidth * (1 - progress), 0);
+    canvas.translate(size.width * progress - _windStreamWidth * (1 - progress),
+        index * _windStreamStep);
     canvas.drawRRect(rect, paint);
     canvas.restore();
   }
