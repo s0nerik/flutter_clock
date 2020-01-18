@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 typedef ParticlePainterBuilder = CustomPainter Function(
@@ -8,51 +9,78 @@ typedef ParticlePainterBuilder = CustomPainter Function(
 class WeatherParticleAnimator extends StatelessWidget {
   const WeatherParticleAnimator({
     Key key,
-    @required this.particleBuilder,
     @required this.axis,
-    @required this.step,
+    @required this.particleBuilder,
+    this.step,
+    this.amount,
     this.minAnimDuration = const Duration(seconds: 4),
     this.maxAnimDuration = const Duration(seconds: 6),
-  })  : assert(minAnimDuration != null && maxAnimDuration != null ||
-            minAnimDuration == null && maxAnimDuration == null),
+    this.minAnimDelay = const Duration(),
+    this.maxAnimDelay = const Duration(),
+  })  : assert(
+            step == null && amount != null || step != null && amount == null),
+        assert(minAnimDuration != null && maxAnimDuration != null),
+        assert(minAnimDelay != null && maxAnimDelay != null),
         super(key: key);
 
   final ParticlePainterBuilder particleBuilder;
   final Axis axis;
   final double step;
+  final int amount;
   final Duration minAnimDuration;
   final Duration maxAnimDuration;
+  final Duration minAnimDelay;
+  final Duration maxAnimDelay;
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final particles = <Widget>[];
-        final maxValue = axis == Axis.vertical
-            ? constraints.maxWidth
-            : constraints.maxHeight;
-        for (var i = 0.0; i < maxValue; i += step) {
-          particles.add(
-            Padding(
-              padding: axis == Axis.vertical
-                  ? EdgeInsets.only(left: i)
-                  : EdgeInsets.only(top: i),
-              child: _Particle(
-                index: i ~/ step,
-                particleBuilder: particleBuilder,
-                minAnimDuration: minAnimDuration,
-                maxAnimDuration: maxAnimDuration,
+    if (amount != null) {
+      return Stack(
+        children: List.generate(
+          amount,
+          (i) => _Particle(
+            index: i,
+            particleBuilder: particleBuilder,
+            minAnimDuration: minAnimDuration,
+            maxAnimDuration: maxAnimDuration,
+            minAnimDelay: minAnimDelay,
+            maxAnimDelay: maxAnimDelay,
+          ),
+        ),
+      );
+    } else {
+      assert(step != null);
+      return LayoutBuilder(
+        builder: (context, constraints) {
+          final particles = <Widget>[];
+          final maxDimen = axis == Axis.vertical
+              ? constraints.maxWidth
+              : constraints.maxHeight;
+          for (var i = 0.0; i < maxDimen; i += step) {
+            particles.add(
+              Padding(
+                padding: axis == Axis.vertical
+                    ? EdgeInsets.only(left: i)
+                    : EdgeInsets.only(top: i),
+                child: _Particle(
+                  index: i ~/ step,
+                  particleBuilder: particleBuilder,
+                  minAnimDuration: minAnimDuration,
+                  maxAnimDuration: maxAnimDuration,
+                  minAnimDelay: minAnimDelay,
+                  maxAnimDelay: maxAnimDelay,
+                ),
               ),
-            ),
-          );
-        }
+            );
+          }
 
-        return Stack(
-          alignment: Alignment.topLeft,
-          children: particles,
-        );
-      },
-    );
+          return Stack(
+            alignment: Alignment.topLeft,
+            children: particles,
+          );
+        },
+      );
+    }
   }
 }
 
@@ -63,13 +91,18 @@ class _Particle extends StatefulWidget {
     @required this.particleBuilder,
     @required this.minAnimDuration,
     @required this.maxAnimDuration,
+    @required this.minAnimDelay,
+    @required this.maxAnimDelay,
   })  : assert(minAnimDuration <= maxAnimDuration),
+        assert(minAnimDelay <= maxAnimDelay),
         super(key: key);
 
   final int index;
   final ParticlePainterBuilder particleBuilder;
   final Duration minAnimDuration;
   final Duration maxAnimDuration;
+  final Duration minAnimDelay;
+  final Duration maxAnimDelay;
 
   @override
   _ParticleState createState() => _ParticleState();
@@ -96,7 +129,21 @@ class _ParticleState extends State<_Particle>
           milliseconds: widget.minAnimDuration.inMilliseconds +
               _rnd.nextInt(durationDiff.inMilliseconds + 1)),
     );
-    _ctrl.repeat();
+    _ctrl.addStatusListener((s) {
+      if (s == AnimationStatus.completed) {
+        _runAnimation(_ctrl);
+      }
+    });
+    _runAnimation(_ctrl);
+  }
+
+  void _runAnimation(AnimationController ctrl) async {
+    final delayDiff = widget.maxAnimDelay - widget.minAnimDelay;
+    final delay = (_rnd.nextDouble() * delayDiff.inMicroseconds).toInt();
+    await Future.delayed(Duration(microseconds: delay));
+    if (ctrl != null) {
+      ctrl.forward(from: 0);
+    }
   }
 
   @override
@@ -104,7 +151,9 @@ class _ParticleState extends State<_Particle>
     super.didUpdateWidget(oldWidget);
     if (oldWidget.index != widget.index ||
         oldWidget.minAnimDuration != widget.minAnimDuration ||
-        oldWidget.maxAnimDuration != widget.maxAnimDuration) {
+        oldWidget.maxAnimDuration != widget.maxAnimDuration ||
+        oldWidget.minAnimDelay != widget.minAnimDelay ||
+        oldWidget.maxAnimDelay != widget.maxAnimDelay) {
       _initAnimController();
     }
   }
@@ -112,6 +161,7 @@ class _ParticleState extends State<_Particle>
   @override
   void dispose() {
     _ctrl.dispose();
+    _ctrl = null;
     super.dispose();
   }
 
