@@ -5,19 +5,26 @@ import 'package:flutter/material.dart';
 class Rain extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    return WeatherParticleAnimator(
+      axis: Axis.vertical,
+      step: _raindropStep,
+      minAnimDuration: const Duration(milliseconds: 500),
+      maxAnimDuration: const Duration(seconds: 1),
+      particleBuilder: (index, color, progress) => _RaindropPainter(
+        index: index,
+        color: color,
+        progress: progress,
+      ),
+    );
+  }
+}
+
+class RainWithClouds extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-        WeatherParticleAnimator(
-          axis: Axis.vertical,
-          step: _raindropStep,
-          minAnimDuration: const Duration(milliseconds: 500),
-          maxAnimDuration: const Duration(seconds: 1),
-          particleBuilder: (index, color, progress) => _RaindropPainter(
-            index: index,
-            color: color,
-            progress: progress,
-          ),
-        ),
+        Rain(),
         Cloudy(),
       ],
     );

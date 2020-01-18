@@ -28,7 +28,7 @@ Widget _buildBackground(WeatherCondition weatherCondition) {
     case WeatherCondition.foggy:
       return Foggy();
     case WeatherCondition.rainy:
-      return Rain();
+      return RainWithClouds();
     case WeatherCondition.snowy:
       return Snow();
     case WeatherCondition.sunny:
