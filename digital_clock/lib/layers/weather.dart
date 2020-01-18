@@ -1,3 +1,4 @@
+import 'package:digital_clock/layers/weather/cloudy.dart';
 import 'package:digital_clock/layers/weather/foggy.dart';
 import 'package:digital_clock/layers/weather/rain.dart';
 import 'package:digital_clock/layers/weather/snow.dart';
@@ -23,8 +24,7 @@ class Weather extends StatelessWidget {
 Widget _buildBackground(WeatherCondition weatherCondition) {
   switch (weatherCondition) {
     case WeatherCondition.cloudy:
-      // TODO: Handle this case.
-      break;
+      return Cloudy();
     case WeatherCondition.foggy:
       return Foggy();
     case WeatherCondition.rainy:

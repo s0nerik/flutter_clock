@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:digital_clock/elements/cloud.dart';
 import 'package:flutter/material.dart';
 
-class Clouds extends StatelessWidget {
+class Cloudy extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
@@ -22,10 +22,10 @@ class Clouds extends StatelessWidget {
                 typeIndex: (x ~/ cloudStep) % 4,
                 minScale: rnd.nextDouble() * 0.25 + 0.5,
                 maxScale: rnd.nextDouble() * 0.25 + 0.75,
-                darkColor: Colors.grey[400],
-                lightColor: Colors.grey[100],
+                darkColor: Colors.grey[400].withOpacity(0.85),
+                lightColor: Colors.grey[100].withOpacity(0.85),
                 animationDuration:
-                    Duration(milliseconds: 500 + rnd.nextInt(1000)),
+                    Duration(milliseconds: 1500 + rnd.nextInt(1000)),
                 animationStartDelay: Duration(milliseconds: rnd.nextInt(2000)),
                 animationType: AnimationType.rain,
               ),
