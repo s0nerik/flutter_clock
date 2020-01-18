@@ -1,19 +1,25 @@
+import 'package:digital_clock/layers/weather/cloudy.dart';
 import 'package:digital_clock/layers/weather/weather_particle_animator.dart';
 import 'package:flutter/material.dart';
 
 class Rain extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return WeatherParticleAnimator(
-      axis: Axis.vertical,
-      step: _raindropStep,
-      minAnimDuration: const Duration(milliseconds: 500),
-      maxAnimDuration: const Duration(seconds: 1),
-      particleBuilder: (index, color, progress) => _RaindropPainter(
-        index: index,
-        color: color,
-        progress: progress,
-      ),
+    return Stack(
+      children: <Widget>[
+        WeatherParticleAnimator(
+          axis: Axis.vertical,
+          step: _raindropStep,
+          minAnimDuration: const Duration(milliseconds: 500),
+          maxAnimDuration: const Duration(seconds: 1),
+          particleBuilder: (index, color, progress) => _RaindropPainter(
+            index: index,
+            color: color,
+            progress: progress,
+          ),
+        ),
+        Cloudy(),
+      ],
     );
   }
 }
