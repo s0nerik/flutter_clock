@@ -52,7 +52,7 @@ List<List<Point>> get _lightnings => [
     ];
 
 List<List<double>> get _splashes => [
-      [0, 0.2, 0.05, 0.7, 0.1, 0.9, 0.2, 0, 0, 0],
+      [0, 0.2, 0.05, 0.4, 0.1, 0.33, 0.2, 0, 0, 0],
     ];
 
 final _rnd = Random(DateTime.now().millisecondsSinceEpoch);
@@ -82,14 +82,15 @@ class _LightningPainter extends CustomPainter {
         _splashTypes[index] ??= _rnd.nextInt(1000000) % _splashes.length;
 
     final splashOpacities = _splashes[splashType];
+    final splashOpacity =
+        splashOpacities[(progress * (splashOpacities.length - 1)).floor()];
     final splashPaint = new Paint()
       ..shader = ui.Gradient.linear(
         Offset(0.0, 0.0),
         Offset(0.0, size.height),
         [
           Colors.white.withOpacity(0),
-          Colors.white
-              .withOpacity(splashOpacities[(progress * (splashOpacities.length - 1)).floor()]),
+          Colors.white.withOpacity(splashOpacity),
           Colors.white.withOpacity(0),
         ],
         [0, 0.5, 1.0],
