@@ -20,7 +20,7 @@ class Thunderstorm extends StatelessWidget {
           maxAnimDelay: Duration(seconds: 10),
           particleBuilder: (index, color, progress) => _LightningPainter(
             index: index,
-            color: Colors.yellowAccent,
+            color: color,
             progress: progress,
           ),
         ),
