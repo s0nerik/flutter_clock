@@ -15,6 +15,13 @@ class Clock with ChangeNotifier {
 
   DateTime get now => _dateTime;
 
+  // Could've been real if lat/lng were available
+  DateTime get sunrise =>
+      DateTime(now.year, now.month, now.day).add(const Duration(hours: 5));
+
+  DateTime get sunset =>
+      DateTime(now.year, now.month, now.day).add(const Duration(hours: 17));
+
   Clock({
     this.updateRate = const Duration(seconds: 1),
     DateTimeProvider dateTimeProvider,
