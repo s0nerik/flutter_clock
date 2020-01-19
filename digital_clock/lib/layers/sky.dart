@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:digital_clock/clock.dart';
 import 'package:digital_clock/elements/moon.dart';
 import 'package:digital_clock/elements/sun.dart';
+import 'package:digital_clock/layers/stars.dart';
 import 'package:flutter/material.dart';
 
 class Sky extends StatelessWidget {
@@ -34,6 +35,8 @@ class Sky extends StatelessWidget {
       double moonY = 0;
       double moonOpacity = 0;
 
+      double starsOpacity = 0;
+
       if (isDayTime) {
         final sinceSunrise = now.difference(sunrise);
         final dayProgress = sinceSunrise.inSeconds / dayDuration.inSeconds;
@@ -52,10 +55,16 @@ class Sky extends StatelessWidget {
         moonY = moonContainerSize.height / 2 +
             moonContainerSize.height / 2 * sin(progressRad);
         moonOpacity = 1;
+        starsOpacity = 1;
       }
 
       return Stack(
         children: <Widget>[
+          AnimatedOpacity(
+            duration: Clock.of(context).updateRate,
+            opacity: starsOpacity,
+            child: Stars(),
+          ),
           AnimatedPositioned(
             duration: Clock.of(context).updateRate,
             left: sunX,
