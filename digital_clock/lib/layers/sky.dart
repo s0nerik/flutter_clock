@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:digital_clock/clock.dart';
+import 'package:digital_clock/elements/moon.dart';
 import 'package:digital_clock/elements/sun.dart';
 import 'package:flutter/material.dart';
 
@@ -10,30 +11,47 @@ class Sky extends StatelessWidget {
     return LayoutBuilder(builder: (context, constraints) {
       final now = Clock.of(context).now;
       final sunrise = Clock.of(context).sunrise;
+      final sunset = Clock.of(context).sunset;
       final dayDuration = Clock.of(context).dayDuration;
+      final nightDuration = Clock.of(context).nightDuration;
       final isDayTime = Clock.of(context).isDayTime;
 
-      final containerSize = Size(
+      final sunContainerSize = Size(
         constraints.maxWidth - kSunSize,
         constraints.maxHeight - kSunSize,
+      );
+
+      final moonContainerSize = Size(
+        constraints.maxWidth - kMoonSize,
+        constraints.maxHeight - kMoonSize,
       );
 
       double sunX = 0;
       double sunY = 0;
       double sunOpacity = 0;
+
+      double moonX = 0;
+      double moonY = 0;
+      double moonOpacity = 0;
+
       if (isDayTime) {
         final sinceSunrise = now.difference(sunrise);
         final dayProgress = sinceSunrise.inSeconds / dayDuration.inSeconds;
         final progressRad = pi - pi * dayProgress;
-        sunX = containerSize.width / 2 +
-            containerSize.width / 2 * cos(progressRad);
-        sunY = containerSize.height / 2 +
-            containerSize.height / 2 * sin(progressRad);
+        sunX = sunContainerSize.width / 2 +
+            sunContainerSize.width / 2 * cos(progressRad);
+        sunY = sunContainerSize.height / 2 +
+            sunContainerSize.height / 2 * sin(progressRad);
         sunOpacity = 1;
       } else {
-        sunX = 0;
-        sunY = 0;
-        sunOpacity = 0;
+        final sinceSunset = now.difference(sunset);
+        final nightProgress = sinceSunset.inSeconds / nightDuration.inSeconds;
+        final progressRad = pi - pi * nightProgress;
+        moonX = moonContainerSize.width / 2 +
+            moonContainerSize.width / 2 * cos(progressRad);
+        moonY = moonContainerSize.height / 2 +
+            moonContainerSize.height / 2 * sin(progressRad);
+        moonOpacity = 1;
       }
 
       return Stack(
@@ -42,9 +60,20 @@ class Sky extends StatelessWidget {
             duration: Clock.of(context).updateRate,
             left: sunX,
             bottom: sunY,
-            child: Opacity(
+            child: AnimatedOpacity(
+              duration: Clock.of(context).updateRate,
               opacity: sunOpacity,
               child: Sun(),
+            ),
+          ),
+          AnimatedPositioned(
+            duration: Clock.of(context).updateRate,
+            left: moonX,
+            bottom: moonY,
+            child: AnimatedOpacity(
+              duration: Clock.of(context).updateRate,
+              opacity: moonOpacity,
+              child: Moon(),
             ),
           ),
         ],
