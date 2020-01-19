@@ -28,9 +28,13 @@ class Clock with ChangeNotifier {
   DateTime get noon => sunset.subtract(_sunriseOffset);
 
   Duration get dayDuration => _sunsetOffset - _sunriseOffset;
-  Duration get nightDuration => const Duration(hours: 24) - _sunsetOffset + _sunriseOffset;
 
-  bool get isDayTime => (now.isAfter(sunrise) || now.isAtSameMomentAs(sunrise)) && (now.isBefore(sunset) || now.isAtSameMomentAs(sunset));
+  Duration get nightDuration =>
+      const Duration(hours: 24) - _sunsetOffset + _sunriseOffset;
+
+  bool get isDayTime =>
+      (now.isAfter(sunrise) || now.isAtSameMomentAs(sunrise)) &&
+      (now.isBefore(sunset) || now.isAtSameMomentAs(sunset));
 
   Clock({
     this.updateRate = const Duration(seconds: 1),
