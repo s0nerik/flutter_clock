@@ -24,25 +24,22 @@ void main() {
     debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
   }
 
-//  runApp(
-//    ClockCustomizer(
-//      (ClockModel model) => ChangeNotifierProvider.value(
-//        value: model,
-//        child: Playground(),
-//      ),
-//    ),
-//  );
-//  return;
-
   runApp(
     ChangeNotifierProvider(
-      create: (_) => Clock(),
+      create: (_) => Clock(dateTimeProvider: _fakeHoursProvider),
       child: ClockCustomizer(
         (ClockModel model) => ChangeNotifierProvider.value(
           value: model,
           child: DigitalClock(),
+//          child: Playground(),
         ),
       ),
     ),
   );
+}
+
+var _currFakeHour = 0;
+
+DateTime _fakeHoursProvider() {
+  return DateTime(2020, 1, 1, _currFakeHour++ % 24);
 }

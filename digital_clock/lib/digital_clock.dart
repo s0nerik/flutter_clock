@@ -1,3 +1,4 @@
+import 'package:digital_clock/clock.dart';
 import 'package:digital_clock/layers/background.dart';
 import 'package:digital_clock/layers/digits.dart';
 import 'package:digital_clock/layers/weather.dart';
@@ -18,8 +19,8 @@ class DigitalClock extends StatelessWidget {
         Container(
           height: MediaQuery.of(context).size.height / 2,
           child: Weather(
-            weatherCondition: WeatherCondition.rainy,
-//            weatherCondition: Provider.of<ClockModel>(context).weatherCondition,
+            weatherCondition: WeatherCondition.sunny,
+//            weatherCondition: ClockExtra.of(context).weatherCondition,
           ),
         ),
 //        Container(

@@ -1,50 +1,17 @@
-import 'dart:async';
-
+import 'package:digital_clock/clock.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_clock_helper/model.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 
-class Digits extends StatefulWidget {
-  @override
-  _DigitsState createState() => _DigitsState();
-}
-
-class _DigitsState extends State<Digits> {
-  DateTime _dateTime = DateTime.now();
-  Timer _timer;
-
-  @override
-  void initState() {
-    super.initState();
-    _updateTime();
-  }
-
-  void _updateTime() {
-    setState(() {
-      _dateTime = DateTime.now();
-      _timer = Timer(
-        Duration(seconds: 1) - Duration(milliseconds: _dateTime.millisecond),
-        _updateTime,
-      );
-    });
-  }
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
-  }
-
+class Digits extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final model = Provider.of<ClockModel>(context);
+    final dateTime = Clock.of(context).now;
+    final is24HourFormat = ClockExtra.of(context).is24HourFormat;
 
-    final hour =
-        DateFormat(model.is24HourFormat ? 'HH' : 'hh').format(_dateTime);
-    final minute = DateFormat('mm').format(_dateTime);
-    final second = DateFormat('ss').format(_dateTime);
+    final hour = DateFormat(is24HourFormat ? 'HH' : 'hh').format(dateTime);
+    final minute = DateFormat('mm').format(dateTime);
+    final second = DateFormat('ss').format(dateTime);
 
     final digits = <int>[
       int.parse(hour[0]),
