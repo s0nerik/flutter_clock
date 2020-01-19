@@ -16,11 +16,21 @@ class Clock with ChangeNotifier {
   DateTime get now => _dateTime;
 
   // Could've been real if lat/lng were available
+  final _sunriseOffset = Duration(hours: 5);
+  final _sunsetOffset = Duration(hours: 17);
+
   DateTime get sunrise =>
-      DateTime(now.year, now.month, now.day).add(const Duration(hours: 5));
+      DateTime(now.year, now.month, now.day).add(_sunriseOffset);
 
   DateTime get sunset =>
-      DateTime(now.year, now.month, now.day).add(const Duration(hours: 17));
+      DateTime(now.year, now.month, now.day).add(_sunsetOffset);
+
+  DateTime get noon => sunset.subtract(_sunriseOffset);
+
+  Duration get dayDuration => _sunsetOffset - _sunriseOffset;
+  Duration get nightDuration => const Duration(hours: 24) - _sunsetOffset + _sunriseOffset;
+
+  bool get isDayTime => (now.isAfter(sunrise) || now.isAtSameMomentAs(sunrise)) && (now.isBefore(sunset) || now.isAtSameMomentAs(sunset));
 
   Clock({
     this.updateRate = const Duration(seconds: 1),
