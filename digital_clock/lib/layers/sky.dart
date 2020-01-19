@@ -18,31 +18,32 @@ class Sky extends StatelessWidget {
         constraints.maxHeight - kSunSize,
       );
 
-      double x;
-      double y;
-      double opacity;
+      double sunX = 0;
+      double sunY = 0;
+      double sunOpacity = 0;
       if (isDayTime) {
         final sinceSunrise = now.difference(sunrise);
         final dayProgress = sinceSunrise.inSeconds / dayDuration.inSeconds;
         final progressRad = pi - pi * dayProgress;
-        x = containerSize.width / 2 +
+        sunX = containerSize.width / 2 +
             containerSize.width / 2 * cos(progressRad);
-        y = containerSize.height / 2 +
+        sunY = containerSize.height / 2 +
             containerSize.height / 2 * sin(progressRad);
-        opacity = 1;
+        sunOpacity = 1;
       } else {
-        x = 0;
-        y = 0;
-        opacity = 0;
+        sunX = 0;
+        sunY = 0;
+        sunOpacity = 0;
       }
 
       return Stack(
         children: <Widget>[
-          Positioned(
-            left: x,
-            bottom: y,
+          AnimatedPositioned(
+            duration: Clock.of(context).updateRate,
+            left: sunX,
+            bottom: sunY,
             child: Opacity(
-              opacity: opacity,
+              opacity: sunOpacity,
               child: Sun(),
             ),
           ),
