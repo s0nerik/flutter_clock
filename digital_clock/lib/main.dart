@@ -4,6 +4,7 @@
 
 import 'dart:io';
 
+import 'package:digital_clock/clock.dart';
 import 'package:digital_clock/playground.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -34,10 +35,13 @@ void main() {
 //  return;
 
   runApp(
-    ClockCustomizer(
-      (ClockModel model) => ChangeNotifierProvider.value(
-        value: model,
-        child: DigitalClock(),
+    ChangeNotifierProvider(
+      create: (_) => Clock(),
+      child: ClockCustomizer(
+        (ClockModel model) => ChangeNotifierProvider.value(
+          value: model,
+          child: DigitalClock(),
+        ),
       ),
     ),
   );
