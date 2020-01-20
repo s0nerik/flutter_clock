@@ -1,16 +1,8 @@
 import 'package:digital_clock/clock.dart';
-import 'package:digital_clock/model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class Foreground extends StatelessWidget {
-  const Foreground({
-    Key key,
-    @required this.season,
-  }) : super(key: key);
-
-  final Season season;
-
+class Mountains extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {

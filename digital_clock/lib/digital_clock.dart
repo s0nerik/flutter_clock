@@ -1,10 +1,9 @@
 import 'package:digital_clock/clock.dart';
 import 'package:digital_clock/layers/digits.dart';
-import 'package:digital_clock/layers/foreground.dart';
+import 'package:digital_clock/layers/mountains.dart';
 import 'package:digital_clock/layers/sky.dart';
 import 'package:digital_clock/layers/sky_gradient.dart';
 import 'package:digital_clock/layers/weather.dart';
-import 'package:digital_clock/model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -33,7 +32,7 @@ class DigitalClock extends StatelessWidget {
 //          height: MediaQuery.of(context).size.height / 2,
 //          child: Clouds(),
 //        ),
-        Foreground(season: Season.summer),
+        Mountains(),
         Container(
           alignment: Alignment.bottomCenter,
           child: Container(
