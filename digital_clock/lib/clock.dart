@@ -45,7 +45,11 @@ class Clock with ChangeNotifier {
   }
 
   double get moonPosition {
-    final sinceSunset = now.difference(sunset);
+    final sinceSunset = now.isAfter(sunset) || now.isAtSameMomentAs(sunset)
+        ? now.difference(sunset)
+        : Duration(hours: 24) -
+            _sunsetOffset +
+            now.difference(DateTime(now.year, now.month, now.day));
     final nightProgress = sinceSunset.inSeconds / nightDuration.inSeconds;
     final result = pi - pi * nightProgress;
     return result;
