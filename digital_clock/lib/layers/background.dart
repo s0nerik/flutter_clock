@@ -1,6 +1,5 @@
 import 'package:digital_clock/clock.dart';
 import 'package:digital_clock/model.dart';
-import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 
 const _earlyMorning = [
@@ -287,14 +286,16 @@ class Background extends StatelessWidget {
 
     final partOfDayLengthSec = secondsInDay / _colors.length;
     final partOfDay = nowSeconds ~/ partOfDayLengthSec;
-    final partOfPartOfDay = (nowSeconds - partOfDay * partOfDayLengthSec) / partOfDayLengthSec;
+    final partOfPartOfDay =
+        (nowSeconds - partOfDay * partOfDayLengthSec) / partOfDayLengthSec;
 
     final partOfDayColorsLen = _colors[0].length;
 
     final interpolatedColors = <Color>[];
     final interpolatedStops = <double>[];
     for (int i = 0; i < partOfDayColorsLen; i++) {
-      final c = Color.lerp(_colors[partOfDay][i], _colors[(partOfDay + 1) % _colors.length][i], partOfPartOfDay);
+      final c = Color.lerp(_colors[partOfDay][i],
+          _colors[(partOfDay + 1) % _colors.length][i], partOfPartOfDay);
       interpolatedColors.add(c);
       interpolatedStops.add(1 / partOfDayColorsLen * i);
     }
@@ -310,23 +311,5 @@ class Background extends StatelessWidget {
         ),
       ),
     );
-
-    return FlareActor(
-      'assets/__bg__.flr',
-      artboard: _artboard(season),
-    );
-  }
-}
-
-String _artboard(Season season) {
-  switch (season) {
-    case Season.spring:
-      return 'bg_spring';
-    case Season.summer:
-      return 'bg_summer';
-    case Season.autumn:
-      return 'bg_autumn';
-    case Season.winter:
-      return 'bg_winter';
   }
 }
