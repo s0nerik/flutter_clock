@@ -1,18 +1,21 @@
 import 'dart:math';
 
+import 'package:digital_clock/clock.dart';
 import 'package:digital_clock/layers/weather/weather_particle_animator.dart';
 import 'package:flutter/material.dart';
 
 class Sunny extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    if (!Clock.of(context).isDayTime) {
+      return Container();
+    }
     return WeatherParticleAnimator(
-      axis: Axis.vertical,
+      axis: Axis.horizontal,
       step: _flareStep,
-      minAnimDuration: Duration(seconds: 1),
-      maxAnimDuration: Duration(seconds: 2),
-      minAnimDelay: Duration(seconds: 1),
+      minAnimDuration: Duration(milliseconds: 500),
+      maxAnimDuration: Duration(seconds: 1),
+      minAnimDelay: Duration(),
       maxAnimDelay: Duration(seconds: 30),
       particleBuilder: (index, color, progress) => _FlarePainter(
         index: index,
@@ -23,13 +26,12 @@ class Sunny extends StatelessWidget {
   }
 }
 
-const _flareWidth = 8.0;
-const _flareStep = _flareWidth * 2;
+const _flareStep = 4.0;
 
 final _rnd = Random(DateTime.now().millisecondsSinceEpoch);
 
-/// Index -> position mapping
-final _flarePositions = <int, double>{};
+final _positions = <int, Offset>{};
+final _radii = <int, double>{};
 
 class _FlarePainter extends CustomPainter {
   _FlarePainter({
@@ -44,18 +46,20 @@ class _FlarePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final opacity = progress < 0.5 ? progress : 1 - progress;
-    final paint = Paint()..color = color.withOpacity(opacity);
+    double p = progress <= 0.5 ? progress : 1 - progress;
+    p = p / 2;
 
-    final position = _flarePositions[index] ??= _rnd.nextDouble();
+    final m =
+        _positions[index] ??= Offset(_rnd.nextDouble(), _rnd.nextDouble());
 
-    final width = max(_flareWidth, _flareWidth * 4 * progress);
+    final baseRadius =
+        _radii[index] ??= size.height / 6 - _rnd.nextDouble() * size.height / 8;
 
-    canvas.save();
-    canvas.translate(index * _flareStep, size.height * position);
-    canvas.drawCircle(
-        Offset(width / 2, width / 2), width, paint);
-    canvas.restore();
+    final paint = Paint()..color = color.withOpacity(p);
+
+    final r = baseRadius * (progress * 0.2 + 0.8);
+
+    canvas.drawCircle(Offset(size.width * m.dx, size.height * m.dy), r, paint);
   }
 
   @override
