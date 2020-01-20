@@ -111,32 +111,30 @@ class _ParticleState extends State<_Particle>
   void initState() {
     super.initState();
     _rnd = Random(widget.index);
+    _ctrl = AnimationController(vsync: this);
+    _ctrl.addStatusListener((s) {
+      if (s == AnimationStatus.completed) {
+        _runAnimation();
+      }
+    });
     _initAnimController();
+    _runAnimation();
   }
 
   void _initAnimController() {
-    _ctrl?.dispose();
     final durationDiff = widget.maxAnimDuration - widget.minAnimDuration;
-    _ctrl = AnimationController(
-      vsync: this,
-      duration: Duration(
-          milliseconds: widget.minAnimDuration.inMilliseconds +
-              _rnd.nextInt(durationDiff.inMilliseconds + 1)),
+    _ctrl.duration = Duration(
+      milliseconds: widget.minAnimDuration.inMilliseconds +
+          _rnd.nextInt(durationDiff.inMilliseconds + 1),
     );
-    _ctrl.addStatusListener((s) {
-      if (s == AnimationStatus.completed) {
-        _runAnimation(_ctrl);
-      }
-    });
-    _runAnimation(_ctrl);
   }
 
-  void _runAnimation(AnimationController ctrl) async {
+  void _runAnimation() async {
     final delayDiff = widget.maxAnimDelay - widget.minAnimDelay;
     final delay = (_rnd.nextDouble() * delayDiff.inMicroseconds).toInt();
     await Future.delayed(Duration(microseconds: delay));
-    if (ctrl != null) {
-      ctrl.forward(from: 0);
+    if (_ctrl != null) {
+      _ctrl.forward(from: 0);
     }
   }
 

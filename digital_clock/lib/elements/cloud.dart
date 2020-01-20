@@ -75,9 +75,9 @@ class _CloudState extends State<Cloud> with SingleTickerProviderStateMixin {
 
   @override
   void dispose() {
-    super.dispose();
     _animCtrl?.dispose();
     _timer?.cancel();
+    super.dispose();
   }
 
   @override
