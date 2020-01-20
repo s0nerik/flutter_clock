@@ -24,9 +24,22 @@ class Digits extends StatelessWidget {
           int.parse(second[1]),
         ];
 
-        final digitWidth = constraints.maxWidth / 8;
+        final digitWidth = constraints.maxWidth / 6;
         final digitHeight = 100.0;
         final digitColor = Colors.white;
+
+        final secondDigitWidth = digitWidth / 2;
+        final secondDigitHeight = digitHeight / 2;
+
+        final tickerWidth = 2 * digitWidth / 3;
+
+        final freeWidth = constraints.maxWidth -
+            digitWidth * 4 -
+            tickerWidth -
+            secondDigitWidth * 2;
+
+        final digitsMarginWidth = freeWidth / 3;
+
         return Row(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -36,14 +49,14 @@ class Digits extends StatelessWidget {
               height: digitHeight,
               child: _Digit(digit: digits[0], color: digitColor),
             ),
-            const SizedBox(width: 16),
+            SizedBox(width: digitsMarginWidth),
             SizedBox(
               width: digitWidth,
               height: digitHeight,
               child: _Digit(digit: digits[1], color: digitColor),
             ),
             SizedBox(
-              width: digitWidth,
+              width: tickerWidth,
               height: digitHeight,
               child: _Ticker(color: digitColor),
             ),
@@ -52,22 +65,22 @@ class Digits extends StatelessWidget {
               height: digitHeight,
               child: _Digit(digit: digits[2], color: digitColor),
             ),
-            const SizedBox(width: 16),
+            SizedBox(width: digitsMarginWidth),
             SizedBox(
               width: digitWidth,
               height: digitHeight,
               child: _Digit(digit: digits[3], color: digitColor),
             ),
-            const SizedBox(width: 16),
+            SizedBox(width: 2 * digitsMarginWidth / 3),
             SizedBox(
-              width: digitWidth / 2,
-              height: digitHeight / 2,
+              width: secondDigitWidth,
+              height: secondDigitHeight,
               child: _Digit(digit: digits[4], color: digitColor),
             ),
-            const SizedBox(width: 8),
+            SizedBox(width: 1 * digitsMarginWidth / 3),
             SizedBox(
-              width: digitWidth / 2,
-              height: digitHeight / 2,
+              width: secondDigitWidth,
+              height: secondDigitHeight,
               child: _Digit(digit: digits[5], color: digitColor),
             ),
           ],
