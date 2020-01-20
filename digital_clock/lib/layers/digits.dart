@@ -6,24 +6,24 @@ import 'package:intl/intl.dart';
 class Digits extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final dateTime = Clock.of(context).now;
-    final is24HourFormat = ClockExtra.of(context).is24HourFormat;
-
-    final hour = DateFormat(is24HourFormat ? 'HH' : 'hh').format(dateTime);
-    final minute = DateFormat('mm').format(dateTime);
-    final second = DateFormat('ss').format(dateTime);
-
-    final digits = <int>[
-      int.parse(hour[0]),
-      int.parse(hour[1]),
-      int.parse(minute[0]),
-      int.parse(minute[1]),
-      int.parse(second[0]),
-      int.parse(second[1]),
-    ];
-
     return LayoutBuilder(
       builder: (context, constraints) {
+        final dateTime = Clock.of(context).now;
+        final is24HourFormat = ClockExtra.of(context).is24HourFormat;
+
+        final hour = DateFormat(is24HourFormat ? 'HH' : 'hh').format(dateTime);
+        final minute = DateFormat('mm').format(dateTime);
+        final second = DateFormat('ss').format(dateTime);
+
+        final digits = <int>[
+          int.parse(hour[0]),
+          int.parse(hour[1]),
+          int.parse(minute[0]),
+          int.parse(minute[1]),
+          int.parse(second[0]),
+          int.parse(second[1]),
+        ];
+
         final digitWidth = constraints.maxWidth / 8;
         final digitHeight = 100.0;
         final digitColor = Colors.white;
