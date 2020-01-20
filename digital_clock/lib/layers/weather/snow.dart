@@ -7,6 +7,8 @@ class Snow extends StatelessWidget {
     return WeatherParticleAnimator(
       axis: Axis.vertical,
       step: _snowflakeStep,
+      minAnimDelay: const Duration(),
+      maxAnimDelay: const Duration(seconds: 3),
       particleBuilder: (index, color, progress) => _SnowflakePainter(
         index: index,
         color: color,
@@ -16,7 +18,7 @@ class Snow extends StatelessWidget {
   }
 }
 
-const _snowflakeStep = 16.0;
+const _snowflakeStep = 8.0;
 const _snowflakeWidth = 8.0;
 
 class _SnowflakePainter extends CustomPainter {
@@ -32,12 +34,18 @@ class _SnowflakePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()..color = color.withOpacity(1 - progress);
+    double opacity;
+    if (progress < 0.2) {
+      opacity = progress * 4;
+    } else {
+      opacity = 1 - progress;
+    }
+
+    final paint = Paint()..color = color.withOpacity(opacity);
 
     canvas.save();
-    canvas.translate(index * _snowflakeStep, size.height * progress);
-    canvas.drawCircle(
-        Offset(_snowflakeWidth / 2, size.height * progress), 8, paint);
+    canvas.translate(index * _snowflakeStep, size.height * 1.5 * progress);
+    canvas.drawCircle(Offset(_snowflakeWidth / 2, 0), 8, paint);
     canvas.restore();
   }
 
