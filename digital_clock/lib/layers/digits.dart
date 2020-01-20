@@ -119,18 +119,24 @@ class _AmPmIndicator extends StatelessWidget {
       return Container();
     } else {
       final amPm = DateFormat('a').format(Clock.of(context).now);
+      Widget child;
       if (amPm == 'AM') {
-        return Container();
-      }
-      return Center(
-        child: Text(
-          amPm,
-          style: TextStyle(
-            fontFamily: 'RussoOne',
-            fontSize: 42,
-            color: color,
+        child = Container();
+      } else {
+        child = Center(
+          child: Text(
+            amPm,
+            style: TextStyle(
+              fontFamily: 'RussoOne',
+              fontSize: 42,
+              color: color,
+            ),
           ),
-        ),
+        );
+      }
+      return AnimatedSwitcher(
+        duration: Clock.of(context).updateRate,
+        child: child,
       );
     }
   }
