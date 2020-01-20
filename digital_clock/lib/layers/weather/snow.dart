@@ -4,16 +4,21 @@ import 'package:flutter/material.dart';
 class Snow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return WeatherParticleAnimator(
-      axis: Axis.vertical,
-      step: _snowflakeStep,
-      minAnimDelay: const Duration(),
-      maxAnimDelay: const Duration(seconds: 3),
-      particleBuilder: (index, color, progress) => _SnowflakePainter(
-        index: index,
-        color: color,
-        progress: progress,
-      ),
+    return Stack(
+      children: <Widget>[
+        WeatherParticleAnimator(
+          axis: Axis.vertical,
+          step: _snowflakeStep,
+          minAnimDelay: const Duration(),
+          maxAnimDelay: const Duration(seconds: 3),
+          particleBuilder: (index, color, progress) => _SnowflakePainter(
+            index: index,
+            color: color,
+            progress: progress,
+          ),
+        ),
+//        Clouds(type: CloudType.snow),
+      ],
     );
   }
 }

@@ -4,7 +4,7 @@ import 'package:digital_clock/elements/cloud.dart';
 import 'package:digital_clock/util/ambient_movement.dart';
 import 'package:flutter/material.dart';
 
-enum CloudType { ambient, rain }
+enum CloudType { ambient, rain, snow }
 
 class Clouds extends StatefulWidget {
   final CloudType type;
@@ -57,7 +57,19 @@ class _CloudsState extends State<Clouds> {
       case CloudType.ambient:
         return _buildAmbientClouds(context, constraints);
       case CloudType.rain:
-        return _buildRainClouds(context, constraints);
+        return _buildHeavyClouds(
+          context,
+          constraints,
+          lightColor: Colors.grey[100].withOpacity(0.85),
+          darkColor: Colors.grey[400].withOpacity(0.85),
+        );
+      case CloudType.snow:
+        return _buildHeavyClouds(
+          context,
+          constraints,
+          lightColor: Colors.white.withOpacity(0.85),
+          darkColor: Colors.grey[100].withOpacity(0.85),
+        );
     }
   }
 
@@ -100,7 +112,12 @@ class _CloudsState extends State<Clouds> {
     }
   }
 
-  void _buildRainClouds(BuildContext context, BoxConstraints constraints) {
+  void _buildHeavyClouds(
+    BuildContext context,
+    BoxConstraints constraints, {
+    @required Color lightColor,
+    @required Color darkColor,
+  }) {
     const cloudStep = 32.0;
 
     final rnd = Random(DateTime.now().millisecondsSinceEpoch);
@@ -116,8 +133,8 @@ class _CloudsState extends State<Clouds> {
               typeIndex: (x ~/ cloudStep) % 4,
               minScale: rnd.nextDouble() * 0.25 + 0.5,
               maxScale: rnd.nextDouble() * 0.25 + 0.75,
-              darkColor: Colors.grey[400].withOpacity(0.85),
-              lightColor: Colors.grey[100].withOpacity(0.85),
+              lightColor: lightColor,
+              darkColor: darkColor,
               animationDuration:
                   Duration(milliseconds: 1500 + rnd.nextInt(1000)),
               animationStartDelay: Duration(milliseconds: rnd.nextInt(2000)),

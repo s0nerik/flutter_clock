@@ -1,13 +1,12 @@
 import 'dart:math';
 
 import 'package:digital_clock/clock.dart';
-import 'package:digital_clock/elements/clouds.dart';
 import 'package:digital_clock/elements/moon.dart';
 import 'package:digital_clock/elements/sun.dart';
+import 'package:digital_clock/layers/ambient_clouds.dart';
 import 'package:digital_clock/layers/stars.dart';
 import 'package:digital_clock/util/animated_rotation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_clock_helper/model.dart';
 
 class Sky extends StatelessWidget {
   @override
@@ -37,18 +36,6 @@ class Sky extends StatelessWidget {
 
       final starsOpacity = Clock.of(context).isDayTime ? 0.0 : 1.0;
 
-      bool showAmbientClouds;
-      switch (ClockExtra.of(context).weatherCondition) {
-        case WeatherCondition.sunny:
-        case WeatherCondition.windy:
-        case WeatherCondition.snowy:
-          showAmbientClouds = true;
-          break;
-        default:
-          showAmbientClouds = false;
-          break;
-      }
-
       return Stack(
         children: <Widget>[
           AnimatedRotation(
@@ -60,12 +47,7 @@ class Sky extends StatelessWidget {
               child: Stars(),
             ),
           ),
-          AnimatedSwitcher(
-            duration: Clock.of(context).updateRate,
-            child: showAmbientClouds
-                ? Clouds(type: CloudType.ambient)
-                : Container(),
-          ),
+          AmbientClouds(),
           AnimatedPositioned(
             duration: Clock.of(context).updateRate,
             left: sunX,
