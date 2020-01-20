@@ -36,10 +36,18 @@ class Sky extends StatelessWidget {
 
       return Stack(
         children: <Widget>[
-          AnimatedOpacity(
+          TweenAnimationBuilder(
+            tween: Tween(end: -Clock.of(context).moonPosition),
             duration: Clock.of(context).updateRate,
-            opacity: starsOpacity,
-            child: Stars(),
+            builder: (context, rotation, child) => Transform.rotate(
+              angle: rotation,
+              child: child,
+            ),
+            child: AnimatedOpacity(
+              duration: Clock.of(context).updateRate,
+              opacity: starsOpacity,
+              child: Stars(),
+            ),
           ),
           AnimatedPositioned(
             duration: Clock.of(context).updateRate,

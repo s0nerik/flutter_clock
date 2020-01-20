@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 
 final _rnd = Random(DateTime.now().millisecondsSinceEpoch);
 
-const _starsAmount = 100;
+const _starsAmount = 200;
 
 final _starOffsets = List.generate(
   _starsAmount,
-  (_) => Offset(_rnd.nextDouble(), _rnd.nextDouble() / 2),
+  (_) => Offset(_rnd.nextDouble(), _rnd.nextDouble() * 2 - 0.5),
 );
 
 final _starSizes = List.generate(
@@ -32,6 +32,7 @@ class Stars extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
       return Stack(
+        overflow: Overflow.visible,
         children: List.generate(
           _starsAmount,
           (i) => Positioned(
