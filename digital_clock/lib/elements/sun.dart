@@ -44,6 +44,7 @@ class Sun extends StatelessWidget {
                 index: index,
                 color: color,
                 progress: progress,
+                isDayTime: Clock.of(context).isDayTime,
               ),
             ),
           ),
@@ -65,14 +66,18 @@ class _SunlightPainter extends CustomPainter {
     @required this.index,
     @required this.color,
     @required this.progress,
+    @required this.isDayTime,
   });
 
   final int index;
   final Color color;
   final double progress;
+  final bool isDayTime;
 
   @override
   void paint(Canvas canvas, Size size) {
+    if (!isDayTime) return;
+
     double opacity;
     if (progress < 0.5) {
       opacity = progress;
@@ -95,7 +100,10 @@ class _SunlightPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return true;
+  bool shouldRepaint(_SunlightPainter oldDelegate) {
+    return index != oldDelegate.index ||
+        color != oldDelegate.color ||
+        progress != oldDelegate.progress ||
+        isDayTime != oldDelegate.isDayTime;
   }
 }
