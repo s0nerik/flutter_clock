@@ -6,11 +6,16 @@ import 'package:digital_clock/layers/sky_gradient.dart';
 import 'package:digital_clock/layers/weather.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
+import 'package:mdi/mdi.dart';
 
 class DigitalClock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIOverlays(const []);
+
+    final h = MediaQuery.of(context).size.height;
+    final w = MediaQuery.of(context).size.width;
 
     return Stack(
       children: [
@@ -19,22 +24,73 @@ class DigitalClock extends StatelessWidget {
         Transform.scale(
           scale: 1.01,
           child: Transform.translate(
-            offset: Offset(0, 40),
+            offset: Offset(0, h * 0.08),
             child: Mountains(),
           ),
         ),
         Container(
-          height: MediaQuery.of(context).size.height / 2,
+          height: h / 2,
           child: Weather(
             weatherCondition: ClockExtra.of(context).weatherCondition,
           ),
         ),
-        Container(
-          alignment: Alignment.bottomCenter,
+        ColorFiltered(
+          colorFilter: ColorFilter.mode(
+//            Colors.white,
+            Clock.of(context).isDayTime ? Colors.black : Colors.white,
+            BlendMode.modulate,
+          ),
           child: Container(
-            height: MediaQuery.of(context).size.height / 2.25,
-            alignment: Alignment.center,
-            child: Digits(),
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              height: h / 2.2,
+              alignment: Alignment.center,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: w * 0.12),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    const SizedBox(height: 16),
+                    Digits(),
+                    const SizedBox(height: 16),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8, right: 2),
+                      child: Row(
+                        textBaseline: TextBaseline.ideographic,
+                        crossAxisAlignment: CrossAxisAlignment.baseline,
+                        children: <Widget>[
+                          Icon(Mdi.calendarMonth, color: Colors.white),
+                          SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              DateFormat('EEEE, MMMM d')
+                                  .format(Clock.of(context).now),
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 26,
+                                fontFamily: 'Comfortaa',
+                              ),
+                            ),
+                          ),
+                          Icon(Mdi.thermometer, color: Colors.white),
+                          SizedBox(width: 2),
+                          Text(
+                            ClockExtra.of(context).temperatureString,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 26,
+                              fontFamily: 'Comfortaa',
+                            ),
+                          ),
+                          SizedBox(width: 2),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
         ),
       ],
