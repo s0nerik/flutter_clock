@@ -3,13 +3,10 @@ import 'dart:async';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 
-enum CloudType { ambient, rain }
-
 class Cloud extends StatefulWidget {
   const Cloud({
     Key key,
     @required this.typeIndex,
-    this.type = CloudType.ambient,
     this.minScale = 0.75,
     this.maxScale = 1.0,
     this.animationDuration = const Duration(seconds: 1),
@@ -19,7 +16,6 @@ class Cloud extends StatefulWidget {
   }) : super(key: key);
 
   final int typeIndex;
-  final CloudType type;
   final Duration animationDuration;
   final Duration animationStartDelay;
   final double minScale;
@@ -52,17 +48,8 @@ class _CloudState extends State<Cloud> with SingleTickerProviderStateMixin {
   }
 
   void _initAnim() {
-    assert(widget.type != null);
-    switch (widget.type) {
-      case CloudType.ambient:
-        _colorAnim = kAlwaysDismissedAnimation.drive(
-            ColorTween(begin: widget.lightColor, end: widget.lightColor));
-        break;
-      case CloudType.rain:
-        _colorAnim = _animCtrl
-            .drive(ColorTween(begin: widget.lightColor, end: widget.darkColor));
-        break;
-    }
+    _colorAnim = _animCtrl
+        .drive(ColorTween(begin: widget.lightColor, end: widget.darkColor));
     _scaleAnim =
         _animCtrl.drive(Tween(begin: widget.minScale, end: widget.maxScale));
   }
@@ -70,7 +57,12 @@ class _CloudState extends State<Cloud> with SingleTickerProviderStateMixin {
   @override
   void didUpdateWidget(Cloud oldWidget) {
     super.didUpdateWidget(oldWidget);
-    _initAnim();
+    if (oldWidget.minScale != widget.minScale ||
+        oldWidget.maxScale != widget.maxScale ||
+        oldWidget.lightColor != widget.lightColor ||
+        oldWidget.darkColor != widget.darkColor) {
+      _initAnim();
+    }
   }
 
   @override
@@ -88,12 +80,13 @@ class _CloudState extends State<Cloud> with SingleTickerProviderStateMixin {
       scale: _scaleAnim,
       child: AnimatedBuilder(
         animation: _colorAnim,
-        builder: (context, _) => ColorFiltered(
+        builder: (context, child) => ColorFiltered(
           colorFilter: ColorFilter.mode(_colorAnim.value, BlendMode.modulate),
-          child: FlareActor(
-            'assets/__elements__.flr',
-            artboard: 'cloud_${widget.typeIndex}',
-          ),
+          child: child,
+        ),
+        child: FlareActor(
+          'assets/__elements__.flr',
+          artboard: 'cloud_${widget.typeIndex}',
         ),
       ),
     );
