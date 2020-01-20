@@ -7,7 +7,6 @@ import 'package:digital_clock/layers/weather.dart';
 import 'package:digital_clock/model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_clock_helper/model.dart';
 
 class DigitalClock extends StatelessWidget {
   @override
