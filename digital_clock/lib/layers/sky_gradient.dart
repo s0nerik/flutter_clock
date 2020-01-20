@@ -256,13 +256,13 @@ final _colors = [
   _earlyEvening, // 17:00
 
   _midEvening, // 18:00
-  _midEvening, // 19:00
-  _midEvening, // 20:00
 
-  _lateEvening, // 21:00
-  _lateEvening, // 22:00
+  _lateEvening, // 19:00
 
-  _earlyNight, // 23:00
+  _earlyNight, // 20:00
+  _earlyNight, // 21:00
+  _earlyNight, // 22:00
+  _midNight, // 23:00
   _midNight, // 24:00/00:00
 ].map((c) => [c[0], c[5], c[10], c[15]]).toList();
 
