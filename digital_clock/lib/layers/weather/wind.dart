@@ -7,7 +7,10 @@ class Wind extends StatelessWidget {
     return WeatherParticleAnimator(
       axis: Axis.horizontal,
       step: _windStreamStep,
+      minAnimDuration: Duration(milliseconds: 500),
+      maxAnimDuration: Duration(seconds: 2),
       particleBuilder: (index, color, progress) => _WindPainter(
+        index: index,
         color: color,
         progress: progress,
       ),
@@ -32,7 +35,14 @@ class _WindPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()..color = color.withOpacity(1 - progress);
+    double opacity;
+    if (progress < 0.2) {
+      opacity = progress * 5;
+    } else {
+      opacity = 1 - progress;
+    }
+
+    final paint = Paint()..color = color.withOpacity(opacity);
     final rect = RRect.fromLTRBR(0, 0, _windStreamWidth, _windStreamHeight,
         Radius.circular(_windStreamWidth / 2));
 
