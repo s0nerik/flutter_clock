@@ -16,7 +16,13 @@ class DigitalClock extends StatelessWidget {
       children: [
         SkyGradient(),
         Sky(),
-        Mountains(),
+        Transform.scale(
+          scale: 1.01,
+          child: Transform.translate(
+            offset: Offset(0, 40),
+            child: Mountains(),
+          ),
+        ),
         Container(
           height: MediaQuery.of(context).size.height / 2,
           child: Weather(
