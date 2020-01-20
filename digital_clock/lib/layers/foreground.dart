@@ -24,7 +24,7 @@ class Foreground extends StatelessWidget {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: c.isDayTime
-              ? [Colors.grey.shade50, Colors.grey.shade400]
+              ? [Colors.grey.shade400, Colors.grey.shade600]
               : [Colors.grey.shade800, Colors.grey.shade900],
           tileMode: TileMode.mirror,
         ).createShader(bounds);
