@@ -11,6 +11,10 @@ class Foggy extends StatelessWidget {
         WeatherParticleAnimator(
           axis: Axis.horizontal,
           step: _fogStep,
+          minAnimDelay: const Duration(seconds: 3),
+          maxAnimDelay: const Duration(seconds: 10),
+          minAnimDuration: const Duration(seconds: 1),
+          maxAnimDuration: const Duration(seconds: 3),
           particleBuilder: (index, color, progress) => _FogPainter(
             index: index,
             color: color,
@@ -22,46 +26,43 @@ class Foggy extends StatelessWidget {
   }
 }
 
-const _fogStep = 4.0;
-const _fogWidth = _fogHeight * 16.0;
-const _fogHeight = 8.0;
+const _fogStep = 1.0;
+
+final _rnd = Random(DateTime.now().millisecondsSinceEpoch);
+final _positions = <int, Offset>{};
+final _targetPositions = <int, Offset>{};
 
 class _FogPainter extends CustomPainter {
   _FogPainter({
     @required this.index,
     @required this.color,
     @required this.progress,
-  }) {
-    rnd = Random(index);
-    start = 0.3 + ((rnd.nextDouble() - 0.5) * 2) * 0.3;
-    end = 0.3 + ((rnd.nextDouble() - 0.5) * 2) * 0.3;
-    middle = (start + end) / 2;
-  }
+  });
 
   final int index;
   final Color color;
   final double progress;
 
-  Random rnd;
-  double middle;
-  double start;
-  double end;
-
   @override
   void paint(Canvas canvas, Size size) {
-    final p = progress <= 0.5 ? progress : 1 - progress;
+    double p = progress <= 0.5 ? progress : 1 - progress;
+    p = p / 2;
 
-    final paint = Paint()..color = color.withOpacity(p);
-    final rect = RRect.fromLTRBR(
-        0, 0, _fogWidth, _fogHeight, Radius.circular(_fogWidth / 2));
+    final m =
+        _positions[index] ??= Offset(_rnd.nextDouble(), _rnd.nextDouble());
 
-    final m = size.width * middle - _fogWidth / 2;
-    final dx = size.width * (start + progress * (end - start));
+    final t = _targetPositions[index] ??= Offset(
+      _rnd.nextDouble() * 0.2 - 0.1,
+      _rnd.nextDouble() * 0.2 - 0.1,
+    );
 
-    canvas.save();
-    canvas.translate(m + dx, index * _fogStep);
-    canvas.drawRRect(rect, paint);
-    canvas.restore();
+    final x = m.dx + t.dx * progress;
+    final y = m.dy + t.dy * progress;
+
+    final paint = Paint()..color = Colors.white.withOpacity(p);
+
+    canvas.drawCircle(
+        Offset(size.width * x, size.height * y), size.height / 2, paint);
   }
 
   @override
