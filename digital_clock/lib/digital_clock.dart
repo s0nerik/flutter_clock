@@ -1,8 +1,8 @@
 import 'package:digital_clock/clock.dart';
-import 'package:digital_clock/layers/background.dart';
 import 'package:digital_clock/layers/digits.dart';
 import 'package:digital_clock/layers/foreground.dart';
 import 'package:digital_clock/layers/sky.dart';
+import 'package:digital_clock/layers/sky_gradient.dart';
 import 'package:digital_clock/layers/weather.dart';
 import 'package:digital_clock/model.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +15,7 @@ class DigitalClock extends StatelessWidget {
 
     return Stack(
       children: [
-        Background(season: Season.summer),
+        SkyGradient(),
         Sky(),
 //        Slideshow(),
         Container(

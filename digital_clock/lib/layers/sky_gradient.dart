@@ -1,5 +1,4 @@
 import 'package:digital_clock/clock.dart';
-import 'package:digital_clock/model.dart';
 import 'package:flutter/material.dart';
 
 const _earlyMorning = [
@@ -267,14 +266,7 @@ final _colors = [
   _midNight, // 24:00/00:00
 ].map((c) => [c[0], c[5], c[10], c[15]]).toList();
 
-class Background extends StatelessWidget {
-  const Background({
-    Key key,
-    @required this.season,
-  }) : super(key: key);
-
-  final Season season;
-
+class SkyGradient extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final now = Clock.of(context).now;
