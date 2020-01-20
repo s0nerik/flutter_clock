@@ -2,15 +2,12 @@ import 'dart:math';
 
 import 'package:digital_clock/layers/weather/weather_particle_animator.dart';
 import 'package:flutter/material.dart';
-import 'package:simple_animations/simple_animations/controlled_animation.dart';
-import 'package:simple_animations/simple_animations/multi_track_tween.dart';
 
 class Foggy extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-//        _Background(),
         WeatherParticleAnimator(
           axis: Axis.horizontal,
           step: _fogStep,
@@ -21,72 +18,6 @@ class Foggy extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class _Background extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final tween = MultiTrackTween([
-      Track("color1").add(
-        Duration(seconds: 3),
-        ColorTween(
-          begin: Colors.white.withOpacity(0),
-          end: Colors.white.withOpacity(0.1),
-        ),
-      ),
-      Track("color2").add(
-        Duration(seconds: 6),
-        ColorTween(
-          begin: Colors.white.withOpacity(0.8),
-          end: Colors.white.withOpacity(0.4),
-        ),
-      ),
-      Track("color3").add(
-        Duration(seconds: 2),
-        ColorTween(
-          begin: Colors.white.withOpacity(0.75),
-          end: Colors.white.withOpacity(0.5),
-        ),
-      ),
-      Track("color4").add(
-        Duration(seconds: 3),
-        ColorTween(
-          begin: Colors.white.withOpacity(0.9),
-          end: Colors.white.withOpacity(0.4),
-        ),
-      ),
-      Track("color5").add(
-        Duration(seconds: 3),
-        ColorTween(
-          begin: Colors.white.withOpacity(0),
-          end: Colors.white.withOpacity(0.1),
-        ),
-      ),
-    ]);
-
-    return ControlledAnimation(
-      playback: Playback.MIRROR,
-      tween: tween,
-      duration: tween.duration,
-      builder: (context, animation) {
-        return Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                animation["color1"],
-                animation["color2"],
-                animation["color3"],
-                animation["color4"],
-                animation["color5"],
-              ],
-            ),
-          ),
-        );
-      },
     );
   }
 }
@@ -121,8 +52,8 @@ class _FogPainter extends CustomPainter {
     final p = progress <= 0.5 ? progress : 1 - progress;
 
     final paint = Paint()..color = color.withOpacity(p);
-    final rect = RRect.fromLTRBR(0, 0, _fogWidth, _fogHeight,
-        Radius.circular(_fogWidth / 2));
+    final rect = RRect.fromLTRBR(
+        0, 0, _fogWidth, _fogHeight, Radius.circular(_fogWidth / 2));
 
     final m = size.width * middle - _fogWidth / 2;
     final dx = size.width * (start + progress * (end - start));
