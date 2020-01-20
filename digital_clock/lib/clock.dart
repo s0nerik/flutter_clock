@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_clock_helper/model.dart';
@@ -35,6 +36,20 @@ class Clock with ChangeNotifier {
   bool get isDayTime =>
       (now.isAfter(sunrise) || now.isAtSameMomentAs(sunrise)) &&
       (now.isBefore(sunset) || now.isAtSameMomentAs(sunset));
+
+  double get sunPosition {
+    final sinceSunrise = now.difference(sunrise);
+    final dayProgress = sinceSunrise.inSeconds / dayDuration.inSeconds;
+    final result = pi - pi * dayProgress;
+    return result;
+  }
+
+  double get moonPosition {
+    final sinceSunset = now.difference(sunset);
+    final nightProgress = sinceSunset.inSeconds / nightDuration.inSeconds;
+    final result = pi - pi * nightProgress;
+    return result;
+  }
 
   Clock({
     this.updateRate = const Duration(seconds: 1),
