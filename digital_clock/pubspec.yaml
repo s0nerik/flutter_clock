@@ -25,6 +25,9 @@ flutter:
     - family: Comfortaa
       fonts:
        - asset: third_party/Comfortaa-Regular.ttf
+    - family: RussoOne
+      fonts:
+        - asset: third_party/RussoOne-Regular.ttf
   assets:
     - assets/
     - assets/mountains/

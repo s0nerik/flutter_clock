@@ -52,7 +52,10 @@ class DigitalClock extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     const SizedBox(height: 16),
-                    Digits(),
+                    SizedBox(
+                      height: h / 4,
+                      child: Digits(),
+                    ),
                     const SizedBox(height: 16),
                     Padding(
                       padding: const EdgeInsets.only(left: 8, right: 2),

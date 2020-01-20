@@ -25,7 +25,7 @@ class Digits extends StatelessWidget {
         ];
 
         final digitWidth = constraints.maxWidth / 6;
-        final digitHeight = 100.0;
+        final digitHeight = constraints.maxHeight;
         final digitColor = Colors.white;
 
         final secondDigitWidth = digitWidth / 2;
@@ -72,21 +72,54 @@ class Digits extends StatelessWidget {
               child: _Digit(digit: digits[3], color: digitColor),
             ),
             SizedBox(width: 2 * digitsMarginWidth / 3),
-            SizedBox(
-              width: secondDigitWidth,
-              height: secondDigitHeight,
-              child: _Digit(digit: digits[4], color: digitColor),
-            ),
-            SizedBox(width: 1 * digitsMarginWidth / 3),
-            SizedBox(
-              width: secondDigitWidth,
-              height: secondDigitHeight,
-              child: _Digit(digit: digits[5], color: digitColor),
+            Column(
+              children: <Widget>[
+                Expanded(child: _AmPmIndicator()),
+                Row(
+                  children: <Widget>[
+                    SizedBox(
+                      width: secondDigitWidth,
+                      height: secondDigitHeight,
+                      child: _Digit(digit: digits[4], color: digitColor),
+                    ),
+                    SizedBox(width: 1 * digitsMarginWidth / 3),
+                    SizedBox(
+                      width: secondDigitWidth,
+                      height: secondDigitHeight,
+                      child: _Digit(digit: digits[5], color: digitColor),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ],
         );
       },
     );
+  }
+}
+
+class _AmPmIndicator extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    if (ClockExtra.of(context).is24HourFormat) {
+      return Container();
+    } else {
+      final amPm = DateFormat('a').format(Clock.of(context).now);
+      if (amPm == 'AM') {
+        return Container();
+      }
+      return Center(
+        child: Text(
+          amPm,
+          style: TextStyle(
+            fontFamily: 'RussoOne',
+            fontSize: 42,
+            color: Colors.white,
+          ),
+        ),
+      );
+    }
   }
 }
 
