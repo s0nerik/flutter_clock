@@ -4,6 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class Digits extends StatelessWidget {
+  const Digits({
+    Key key,
+    @required this.digitColor,
+  }) : super(key: key);
+
+  final Color digitColor;
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -26,7 +33,6 @@ class Digits extends StatelessWidget {
 
         final digitWidth = constraints.maxWidth / 6;
         final digitHeight = constraints.maxHeight;
-        final digitColor = Colors.white;
 
         final secondDigitWidth = digitWidth / 2;
         final secondDigitHeight = digitHeight / 2;
@@ -74,7 +80,7 @@ class Digits extends StatelessWidget {
             SizedBox(width: 2 * digitsMarginWidth / 3),
             Column(
               children: <Widget>[
-                Expanded(child: _AmPmIndicator()),
+                Expanded(child: _AmPmIndicator(color: digitColor)),
                 Row(
                   children: <Widget>[
                     SizedBox(
@@ -100,6 +106,13 @@ class Digits extends StatelessWidget {
 }
 
 class _AmPmIndicator extends StatelessWidget {
+  const _AmPmIndicator({
+    Key key,
+    @required this.color,
+  }) : super(key: key);
+
+  final Color color;
+
   @override
   Widget build(BuildContext context) {
     if (ClockExtra.of(context).is24HourFormat) {
@@ -115,7 +128,7 @@ class _AmPmIndicator extends StatelessWidget {
           style: TextStyle(
             fontFamily: 'RussoOne',
             fontSize: 42,
-            color: Colors.white,
+            color: color,
           ),
         ),
       );
