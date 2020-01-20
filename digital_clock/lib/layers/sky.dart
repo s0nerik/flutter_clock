@@ -4,6 +4,7 @@ import 'package:digital_clock/clock.dart';
 import 'package:digital_clock/elements/moon.dart';
 import 'package:digital_clock/elements/sun.dart';
 import 'package:digital_clock/layers/stars.dart';
+import 'package:digital_clock/util/animated_rotation.dart';
 import 'package:flutter/material.dart';
 
 class Sky extends StatelessWidget {
@@ -36,13 +37,9 @@ class Sky extends StatelessWidget {
 
       return Stack(
         children: <Widget>[
-          TweenAnimationBuilder(
-            tween: Tween(end: -Clock.of(context).moonPosition),
+          AnimatedRotation(
+            rotation: -Clock.of(context).moonPosition,
             duration: Clock.of(context).updateRate,
-            builder: (context, rotation, child) => Transform.rotate(
-              angle: rotation,
-              child: child,
-            ),
             child: AnimatedOpacity(
               duration: Clock.of(context).updateRate,
               opacity: starsOpacity,
