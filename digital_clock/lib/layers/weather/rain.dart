@@ -1,4 +1,5 @@
-import 'package:digital_clock/layers/weather/cloudy.dart';
+import 'package:digital_clock/elements/cloud.dart';
+import 'package:digital_clock/elements/clouds.dart';
 import 'package:digital_clock/layers/weather/weather_particle_animator.dart';
 import 'package:flutter/material.dart';
 
@@ -25,7 +26,7 @@ class RainWithClouds extends StatelessWidget {
     return Stack(
       children: <Widget>[
         Rain(),
-        Cloudy(),
+        Clouds(type: CloudType.rain),
       ],
     );
   }

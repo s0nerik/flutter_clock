@@ -1,7 +1,8 @@
-import 'dart:ui' as ui;
 import 'dart:math';
+import 'dart:ui' as ui;
 
-import 'package:digital_clock/layers/weather/cloudy.dart';
+import 'package:digital_clock/elements/cloud.dart';
+import 'package:digital_clock/elements/clouds.dart';
 import 'package:digital_clock/layers/weather/rain.dart';
 import 'package:digital_clock/layers/weather/weather_particle_animator.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,7 @@ class Thunderstorm extends StatelessWidget {
             progress: progress,
           ),
         ),
-        Cloudy(),
+        Clouds(type: CloudType.rain),
       ],
     );
   }

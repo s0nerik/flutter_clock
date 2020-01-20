@@ -3,13 +3,13 @@ import 'dart:async';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 
-enum AnimationType { idle, rain }
+enum CloudType { ambient, rain }
 
 class Cloud extends StatefulWidget {
   const Cloud({
     Key key,
     @required this.typeIndex,
-    this.animationType = AnimationType.idle,
+    this.type = CloudType.ambient,
     this.minScale = 0.75,
     this.maxScale = 1.0,
     this.animationDuration = const Duration(seconds: 1),
@@ -19,7 +19,7 @@ class Cloud extends StatefulWidget {
   }) : super(key: key);
 
   final int typeIndex;
-  final AnimationType animationType;
+  final CloudType type;
   final Duration animationDuration;
   final Duration animationStartDelay;
   final double minScale;
@@ -52,13 +52,13 @@ class _CloudState extends State<Cloud> with SingleTickerProviderStateMixin {
   }
 
   void _initAnim() {
-    assert(widget.animationType != null);
-    switch (widget.animationType) {
-      case AnimationType.idle:
+    assert(widget.type != null);
+    switch (widget.type) {
+      case CloudType.ambient:
         _colorAnim = kAlwaysDismissedAnimation.drive(
             ColorTween(begin: widget.lightColor, end: widget.lightColor));
         break;
-      case AnimationType.rain:
+      case CloudType.rain:
         _colorAnim = _animCtrl
             .drive(ColorTween(begin: widget.lightColor, end: widget.darkColor));
         break;
