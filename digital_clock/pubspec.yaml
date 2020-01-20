@@ -22,9 +22,6 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   fonts:
-    - family: PressStart2P
-      fonts:
-        - asset: third_party/PressStart2P-Regular.ttf
     - family: Comfortaa
       fonts:
        - asset: third_party/Comfortaa-Regular.ttf
