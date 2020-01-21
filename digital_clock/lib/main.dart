@@ -24,21 +24,15 @@ void main() {
     debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
   }
 
-  runApp(FakeTimeApp());
-//  runApp(RealTimeApp());
+//  runApp(FakeTimeApp());
+  runApp(App());
 }
 
-class FakeTimeApp extends StatelessWidget {
+class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final provider = FakeTimeProvider(
-      initialDate: DateTime.utc(2020, 1, 21),
-      increaseBy: Duration(minutes: 10),
-      minTime: Duration(hours: 6, minutes: 30),
-      maxTime: Duration(hours: 8),
-    );
-    return ChangeNotifierProvider.value(
-      value: Clock(dateTimeProvider: provider),
+    return ChangeNotifierProvider(
+      create: (_) => Clock(),
       child: ClockCustomizer(
         (ClockModel model) => ChangeNotifierProvider.value(
           value: model,
@@ -49,11 +43,18 @@ class FakeTimeApp extends StatelessWidget {
   }
 }
 
-class RealTimeApp extends StatelessWidget {
+class FakeTimeApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => Clock(),
+    final provider = FakeTimeProvider(
+      initialDate: DateTime.utc(2020, 1, 1),
+      increaseBy: Duration(hours: 0, seconds: 1),
+      minTime: Duration(hours: 01, minutes: 30),
+//      minTime: Duration(hours: 16, minutes: 00),
+//      maxTime: Duration(hours: 17, minutes: 00),
+    );
+    return ChangeNotifierProvider.value(
+      value: Clock(dateTimeProvider: provider),
       child: ClockCustomizer(
         (ClockModel model) => ChangeNotifierProvider.value(
           value: model,
