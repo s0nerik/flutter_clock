@@ -85,7 +85,7 @@ class _CloudState extends State<Cloud> with SingleTickerProviderStateMixin {
           child: child,
         ),
         child: FlareActor(
-          'assets/__elements__.flr',
+          'assets/elements.flr',
           artboard: 'cloud_${widget.typeIndex}',
         ),
       ),
