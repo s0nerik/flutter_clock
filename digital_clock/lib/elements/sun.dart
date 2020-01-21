@@ -1,8 +1,8 @@
 import 'dart:math';
 
 import 'package:digital_clock/clock.dart';
-import 'package:digital_clock/layers/weather/weather_particle_animator.dart';
 import 'package:digital_clock/util/animated_rotation.dart';
+import 'package:digital_clock/util/weather_particle_animator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clock_helper/model.dart';
 

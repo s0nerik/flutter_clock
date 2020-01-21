@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:digital_clock/layers/weather/weather_particle_animator.dart';
+import 'package:digital_clock/util/weather_particle_animator.dart';
 import 'package:flutter/material.dart';
 
 class Foggy extends StatelessWidget {

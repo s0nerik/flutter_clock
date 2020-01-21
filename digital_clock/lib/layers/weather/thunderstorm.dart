@@ -3,7 +3,7 @@ import 'dart:ui' as ui;
 
 import 'package:digital_clock/elements/clouds.dart';
 import 'package:digital_clock/layers/weather/rainy.dart';
-import 'package:digital_clock/layers/weather/weather_particle_animator.dart';
+import 'package:digital_clock/util/weather_particle_animator.dart';
 import 'package:flutter/material.dart';
 
 class Thunderstorm extends StatelessWidget {
