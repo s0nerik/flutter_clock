@@ -153,25 +153,6 @@ const _midEvening = [
   Color(0xffd22e30),
 ];
 
-const _lateEvening = [
-  Color(0xff9d1d73),
-  Color(0xff8d2196),
-  Color(0xff8522a0),
-  Color(0xff8622a0),
-  Color(0xffa71b61),
-  Color(0xffba1b42),
-  Color(0xffba1b41),
-  Color(0xffb41c57),
-  Color(0xffab1e1a),
-  Color(0xffae1c19),
-  Color(0xffb41816),
-  Color(0xffbc1a2b),
-  Color(0xffba1917),
-  Color(0xffb91922),
-  Color(0xffbc1914),
-  Color(0xffc31c34),
-];
-
 const _earlyNight = [
   Color(0xff1e1171),
   Color(0xff201171),
@@ -229,42 +210,40 @@ const _lateNight = [
   Color(0xff22294f),
 ];
 
-get _colors => [
-      _lateNight, // 1:00
-      _lateNight, // 2:00
-      _lateNight, // 3:00
-      _lateNight, // 4:00
+Map<Duration, List<Color>> get _colorsByTime => <Duration, List<Color>>{
+      Duration(hours: 0, minutes: 0): _midNight,
+      Duration(hours: 1, minutes: 0): _lateNight,
+      Duration(hours: 3, minutes: 30): _earlyMorning,
+      Duration(hours: 5, minutes: 0): _midMorning,
+      Duration(hours: 7, minutes: 30): _lateMorning,
+      Duration(hours: 12, minutes: 0): _earlyAfternoon,
+      Duration(hours: 13, minutes: 0): _midAfternoon,
+      Duration(hours: 14, minutes: 0): _lateAfternoon,
+      Duration(hours: 15, minutes: 30): _earlyEvening,
+      Duration(hours: 17, minutes: 0): _midEvening,
+      Duration(hours: 19, minutes: 30): _earlyNight,
+      Duration(hours: 21, minutes: 30): _midNight,
+    };
 
-      _earlyMorning, // 5:00
+List<List<Color>> get _colors {
+  final result = <List<Color>>[];
 
-      _midMorning, // 6:00
-      _midMorning, // 7:00
-      _midMorning, // 8:00
+  const step = Duration(minutes: 10);
 
-      _lateMorning, // 9:00
-      _lateMorning, // 10:00
-      _lateMorning, // 11:00
+  var currKeypoint = Duration();
+  List<Color> currColors;
+  while (currKeypoint < const Duration(days: 1)) {
+    currColors = _colorsByTime[currKeypoint] ?? currColors;
 
-      _earlyAfternoon, // 12:00
+    result.add(currColors);
 
-      _midAfternoon, // 13:00
+    currKeypoint += step;
+  }
 
-      _lateAfternoon, // 14:00
-      _lateAfternoon, // 15:00
-      _lateAfternoon, // 16:00
+  final mappedResult = result.map((c) => [c[0], c[15]]).toList();
 
-      _earlyEvening, // 17:00
-
-      _midEvening, // 18:00
-
-      _lateEvening, // 19:00
-
-      _earlyNight, // 20:00
-      _earlyNight, // 21:00
-      _earlyNight, // 22:00
-      _midNight, // 23:00
-      _midNight, // 24:00/00:00
-    ].map((c) => [c[0], c[15]]).toList();
+  return mappedResult;
+}
 
 class SkyGradient extends StatelessWidget {
   @override

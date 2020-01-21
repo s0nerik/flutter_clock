@@ -20,14 +20,14 @@ class DigitalClock extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          height: h / 1.85,
+          height: h / 1.9,
           child: SkyGradient(),
         ),
         Sky(),
         Transform.scale(
           scale: 1.01,
           child: Transform.translate(
-            offset: Offset(0, h * 0.08),
+            offset: Offset(0, h * 0.06),
             child: Mountains(),
           ),
         ),
