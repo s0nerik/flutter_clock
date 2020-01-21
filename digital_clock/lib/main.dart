@@ -5,6 +5,7 @@
 import 'dart:io';
 
 import 'package:digital_clock/clock.dart';
+import 'package:digital_clock/fake.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clock_helper/customizer.dart';
@@ -23,22 +24,42 @@ void main() {
     debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
   }
 
-  runApp(
-    ChangeNotifierProvider(
-      create: (_) => Clock(dateTimeProvider: _fakeHoursProvider),
+  runApp(FakeTimeApp());
+//  runApp(RealTimeApp());
+}
+
+class FakeTimeApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final provider = FakeTimeProvider(
+      initialDate: DateTime.utc(2020, 1, 21),
+      increaseBy: Duration(minutes: 10),
+      minTime: Duration(hours: 6, minutes: 30),
+      maxTime: Duration(hours: 8),
+    );
+    return ChangeNotifierProvider.value(
+      value: Clock(dateTimeProvider: provider),
       child: ClockCustomizer(
         (ClockModel model) => ChangeNotifierProvider.value(
           value: model,
           child: DigitalClock(),
-//          child: Playground(),
         ),
       ),
-    ),
-  );
+    );
+  }
 }
 
-var _currFakeHour = 0;
-
-DateTime _fakeHoursProvider() {
-  return DateTime(2020, 1, 1, _currFakeHour++ % 24);
+class RealTimeApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (_) => Clock(),
+      child: ClockCustomizer(
+        (ClockModel model) => ChangeNotifierProvider.value(
+          value: model,
+          child: DigitalClock(),
+        ),
+      ),
+    );
+  }
 }
