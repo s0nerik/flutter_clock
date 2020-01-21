@@ -1,10 +1,10 @@
 import 'package:digital_clock/layers/weather/cloudy.dart';
 import 'package:digital_clock/layers/weather/foggy.dart';
-import 'package:digital_clock/layers/weather/rain.dart';
-import 'package:digital_clock/layers/weather/snow.dart';
+import 'package:digital_clock/layers/weather/rainy.dart';
+import 'package:digital_clock/layers/weather/snowy.dart';
 import 'package:digital_clock/layers/weather/sunny.dart';
 import 'package:digital_clock/layers/weather/thunderstorm.dart';
-import 'package:digital_clock/layers/weather/wind.dart';
+import 'package:digital_clock/layers/weather/windy.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clock_helper/model.dart';
 
@@ -29,15 +29,15 @@ Widget _buildBackground(WeatherCondition weatherCondition) {
     case WeatherCondition.foggy:
       return Foggy();
     case WeatherCondition.rainy:
-      return RainWithClouds();
+      return RainyWithClouds();
     case WeatherCondition.snowy:
-      return Snow();
+      return Snowy();
     case WeatherCondition.sunny:
       return Sunny();
     case WeatherCondition.thunderstorm:
       return Thunderstorm();
     case WeatherCondition.windy:
-      return Wind();
+      return Windy();
   }
   return const SizedBox.shrink();
 }

@@ -1,7 +1,7 @@
 import 'package:digital_clock/layers/weather/weather_particle_animator.dart';
 import 'package:flutter/material.dart';
 
-class Wind extends StatelessWidget {
+class Windy extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WeatherParticleAnimator(

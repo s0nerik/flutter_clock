@@ -1,4 +1,3 @@
-import 'package:digital_clock/elements/cloud.dart';
 import 'package:digital_clock/elements/clouds.dart';
 import 'package:digital_clock/layers/weather/weather_particle_animator.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +19,7 @@ class Rain extends StatelessWidget {
   }
 }
 
-class RainWithClouds extends StatelessWidget {
+class RainyWithClouds extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
