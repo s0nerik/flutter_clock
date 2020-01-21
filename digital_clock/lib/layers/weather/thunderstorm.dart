@@ -32,30 +32,30 @@ class Thunderstorm extends StatelessWidget {
 
 const _lightningWidth = 64.0;
 
-List<List<Point>> get _lightnings => [
-      [
-        Point(0.00, 0),
-        Point(0.66, 0.3),
-        Point(0.33, 0.6),
-        Point(1.00, 1.0),
-        Point(0.45, 0.6),
-        Point(0.75, 0.3),
-        Point(0.12, 0),
-      ],
-      [
-        Point(0.75, 0),
-        Point(0.33, 0.3),
-        Point(0.66, 0.6),
-        Point(0.00, 1.0),
-        Point(0.75, 0.6),
-        Point(0.50, 0.3),
-        Point(0.96, 0),
-      ],
-    ];
+const _lightnings = [
+  [
+    Point(0.00, 0),
+    Point(0.66, 0.3),
+    Point(0.33, 0.6),
+    Point(1.00, 1.0),
+    Point(0.45, 0.6),
+    Point(0.75, 0.3),
+    Point(0.12, 0),
+  ],
+  [
+    Point(0.75, 0),
+    Point(0.33, 0.3),
+    Point(0.66, 0.6),
+    Point(0.00, 1.0),
+    Point(0.75, 0.6),
+    Point(0.50, 0.3),
+    Point(0.96, 0),
+  ],
+];
 
-List<List<double>> get _splashes => [
-      [0, 0.2, 0.05, 0.4, 0.1, 0.33, 0.2, 0, 0, 0],
-    ];
+const _splashes = [
+  [0, 0.2, 0.05, 0.4, 0.1, 0.33, 0.2, 0, 0, 0],
+];
 
 final _rnd = Random(DateTime.now().millisecondsSinceEpoch);
 
