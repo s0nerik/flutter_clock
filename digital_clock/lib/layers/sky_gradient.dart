@@ -210,39 +210,61 @@ const _lateNight = [
   Color(0xff22294f),
 ];
 
-Map<Duration, List<Color>> get _colorsByTime => <Duration, List<Color>>{
-      Duration(hours: 0, minutes: 0): _midNight,
-      Duration(hours: 1, minutes: 0): _lateNight,
-      Duration(hours: 3, minutes: 30): _earlyMorning,
-      Duration(hours: 5, minutes: 0): _midMorning,
-      Duration(hours: 7, minutes: 30): _lateMorning,
-      Duration(hours: 12, minutes: 0): _earlyAfternoon,
-      Duration(hours: 13, minutes: 0): _midAfternoon,
-      Duration(hours: 14, minutes: 0): _lateAfternoon,
-      Duration(hours: 15, minutes: 30): _earlyEvening,
-      Duration(hours: 17, minutes: 0): _midEvening,
-      Duration(hours: 19, minutes: 30): _earlyNight,
-      Duration(hours: 21, minutes: 30): _midNight,
-    };
+final Map<Duration, List<Color>> _colorsByTime = {
+  Duration(hours: 0, minutes: 0): _midNight,
+  Duration(hours: 1, minutes: 0): _lateNight,
+  Duration(hours: 3, minutes: 30): _earlyMorning,
+  Duration(hours: 5, minutes: 0): _midMorning,
+  Duration(hours: 7, minutes: 30): _lateMorning,
+  Duration(hours: 12, minutes: 0): _earlyAfternoon,
+  Duration(hours: 13, minutes: 0): _midAfternoon,
+  Duration(hours: 14, minutes: 0): _lateAfternoon,
+  Duration(hours: 15, minutes: 30): _earlyEvening,
+  Duration(hours: 17, minutes: 0): _midEvening,
+  Duration(hours: 19, minutes: 30): _earlyNight,
+  Duration(hours: 21, minutes: 30): _midNight,
+};
+
+List<List<Color>> _cachedColors;
 
 List<List<Color>> get _colors {
+  if (_cachedColors != null) return _cachedColors;
+
   final result = <List<Color>>[];
 
-  const step = Duration(minutes: 10);
+  const step = Duration(minutes: 1);
 
   var currKeypoint = Duration();
-  List<Color> currColors;
   while (currKeypoint < const Duration(days: 1)) {
-    currColors = _colorsByTime[currKeypoint] ?? currColors;
+    final prevKeypoint = _colorsByTime.keys.lastWhere(
+      (k) => k <= currKeypoint,
+    );
+    final nextKeypoint = _colorsByTime.keys.firstWhere(
+      (k) => k > currKeypoint,
+      orElse: () => _colorsByTime.keys.first,
+    );
+    final section = (nextKeypoint - prevKeypoint).inMilliseconds;
+    final progress = (currKeypoint - prevKeypoint).inMilliseconds;
+    final normalizedProgress = progress / section;
+
+    final prevColors = _colorsByTime[prevKeypoint];
+    final nextColors = _colorsByTime[nextKeypoint];
+
+    final currColors = <Color>[];
+    for (int i = 0; i < prevColors.length; i++) {
+      final interpolatedColor =
+          Color.lerp(prevColors[i], nextColors[i], normalizedProgress);
+      currColors.add(interpolatedColor);
+    }
 
     result.add(currColors);
 
     currKeypoint += step;
   }
 
-  final mappedResult = result.map((c) => [c[0], c[15]]).toList();
+  _cachedColors = result.map((c) => [c[0], c[15]]).toList();
 
-  return mappedResult;
+  return _cachedColors;
 }
 
 class SkyGradient extends StatelessWidget {
