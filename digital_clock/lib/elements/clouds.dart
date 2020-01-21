@@ -74,14 +74,14 @@ class _CloudsState extends State<Clouds> {
   }
 
   void _buildAmbientClouds(BuildContext context, BoxConstraints constraints) {
-    const cloudStep = 64.0;
+    const cloudStep = 32.0;
 
     final rnd = Random(DateTime.now().millisecondsSinceEpoch);
     int i = 0;
-    for (var y = 0.0; y < constraints.maxHeight; y += cloudStep) {
+    for (var y = -64.0; y < constraints.maxHeight; y += cloudStep) {
       final initialPos = _cloudPositions[i] ??= rnd.nextDouble();
       final duration =
-          _cloudDurations[i] ??= Duration(seconds: rnd.nextInt(5) + 25);
+          _cloudDurations[i] ??= Duration(seconds: rnd.nextInt(60) + 25);
       _clouds.add(
         Positioned(
           top: y,
@@ -96,7 +96,7 @@ class _CloudsState extends State<Clouds> {
               height: 128,
               child: Cloud(
                 typeIndex: (y ~/ cloudStep) % 4,
-                minScale: rnd.nextDouble() * 0.25 + 0.15,
+                minScale: rnd.nextDouble() * 0.35 + 0.15,
                 maxScale: rnd.nextDouble() * 0.25 + 0.25,
                 lightColor: Colors.white.withOpacity(0.5),
                 darkColor: Colors.grey[50].withOpacity(0.5),
