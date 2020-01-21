@@ -11,7 +11,7 @@ dependencies:
   flutter_clock_helper:
     path: ../flutter_clock_helper
   flare_flutter: ^2.0.1
-  provider: ^3.2.0
+  provider: ^4.0.2
   mdi: ^1.0.1
 
 dev_dependencies:
