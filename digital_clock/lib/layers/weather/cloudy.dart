@@ -1,4 +1,3 @@
-import 'package:digital_clock/elements/cloud.dart';
 import 'package:digital_clock/elements/clouds.dart';
 import 'package:flutter/material.dart';
 
