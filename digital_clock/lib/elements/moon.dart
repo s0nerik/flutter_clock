@@ -8,7 +8,7 @@ class Moon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedRotation(
-      rotation: -Clock.of(context).moonPosition,
+      rotation: -Clock.of(context).moonPosition.abs(),
       duration: Clock.of(context).updateRate,
       child: Stack(
         children: <Widget>[
