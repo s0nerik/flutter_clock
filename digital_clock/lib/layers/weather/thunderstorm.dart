@@ -53,7 +53,7 @@ const _lightnings = [
   ],
 ];
 
-const _splashes = [
+const _splashes = <List<double>>[
   [0, 0.2, 0.05, 0.4, 0.1, 0.33, 0.2, 0, 0, 0],
 ];
 
