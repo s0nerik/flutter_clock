@@ -20,8 +20,13 @@ class FakeTimeProvider {
 
   DateTime call() {
     final fakeDate = _fakeDate.add(increaseBy);
-    final startOfDay = DateTime(fakeDate.year, fakeDate.month, fakeDate.day);
-    if (fakeDate.difference(startOfDay) > maxTime) {
+    final fakeTime = Duration(
+      hours: _fakeDate.hour,
+      minutes: _fakeDate.minute,
+      seconds: _fakeDate.second,
+    );
+    if (fakeTime > maxTime || fakeTime < minTime) {
+      final startOfDay = DateTime(fakeDate.year, fakeDate.month, fakeDate.day);
       final tomorrowStart = startOfDay.add(Duration(days: 1)).add(minTime);
       _fakeDate = tomorrowStart;
     } else {
