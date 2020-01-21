@@ -229,42 +229,42 @@ const _lateNight = [
   Color(0xff22294f),
 ];
 
-final _colors = [
-  _lateNight, // 1:00
-  _lateNight, // 2:00
-  _lateNight, // 3:00
-  _lateNight, // 4:00
+get _colors => [
+      _lateNight, // 1:00
+      _lateNight, // 2:00
+      _lateNight, // 3:00
+      _lateNight, // 4:00
 
-  _earlyMorning, // 5:00
+      _earlyMorning, // 5:00
 
-  _midMorning, // 6:00
-  _midMorning, // 7:00
-  _midMorning, // 8:00
+      _midMorning, // 6:00
+      _midMorning, // 7:00
+      _midMorning, // 8:00
 
-  _lateMorning, // 9:00
-  _lateMorning, // 10:00
-  _lateMorning, // 11:00
+      _lateMorning, // 9:00
+      _lateMorning, // 10:00
+      _lateMorning, // 11:00
 
-  _earlyAfternoon, // 12:00
+      _earlyAfternoon, // 12:00
 
-  _midAfternoon, // 13:00
+      _midAfternoon, // 13:00
 
-  _lateAfternoon, // 14:00
-  _lateAfternoon, // 15:00
-  _lateAfternoon, // 16:00
+      _lateAfternoon, // 14:00
+      _lateAfternoon, // 15:00
+      _lateAfternoon, // 16:00
 
-  _earlyEvening, // 17:00
+      _earlyEvening, // 17:00
 
-  _midEvening, // 18:00
+      _midEvening, // 18:00
 
-  _lateEvening, // 19:00
+      _lateEvening, // 19:00
 
-  _earlyNight, // 20:00
-  _earlyNight, // 21:00
-  _earlyNight, // 22:00
-  _midNight, // 23:00
-  _midNight, // 24:00/00:00
-].map((c) => [c[0], c[5], c[10], c[15]]).toList();
+      _earlyNight, // 20:00
+      _earlyNight, // 21:00
+      _earlyNight, // 22:00
+      _midNight, // 23:00
+      _midNight, // 24:00/00:00
+    ].map((c) => [c[0], c[15]]).toList();
 
 class SkyGradient extends StatelessWidget {
   @override
@@ -289,8 +289,11 @@ class SkyGradient extends StatelessWidget {
       final c = Color.lerp(_colors[partOfDay][i],
           _colors[(partOfDay + 1) % _colors.length][i], partOfPartOfDay);
       interpolatedColors.add(c);
-      interpolatedStops.add(1 / partOfDayColorsLen * i);
+      if (i < partOfDayColorsLen - 1) {
+        interpolatedStops.add(1 / partOfDayColorsLen * i);
+      }
     }
+    interpolatedStops.add(1.0);
 
     return AnimatedContainer(
       duration: timeUpdateRate,
