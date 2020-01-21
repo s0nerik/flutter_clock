@@ -142,7 +142,7 @@ class _AmPmIndicator extends StatelessWidget {
   }
 }
 
-class _Digit extends StatelessWidget {
+class _Digit extends StatefulWidget {
   const _Digit({
     Key key,
     @required this.digit,
@@ -155,17 +155,36 @@ class _Digit extends StatelessWidget {
   final Function(String) callback;
 
   @override
+  _DigitState createState() => _DigitState();
+}
+
+class _DigitState extends State<_Digit> {
+  int _prevDigit;
+
+  @override
+  void didUpdateWidget(_Digit oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.digit != widget.digit) {
+      _prevDigit = oldWidget.digit;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final animation = _prevDigit != null
+        ? '$_prevDigit -> ${widget.digit}'
+        : '${(widget.digit - 1) % 10} -> ${widget.digit}';
+
     return KeyedSubtree(
-      key: ValueKey<int>(digit),
+      key: ValueKey<int>(widget.digit),
       child: FlareActor(
         'assets/numbers.flr',
         artboard: 'Anim',
-        animation: '${(digit - 1) % 10} -> $digit',
+        animation: animation,
         alignment: Alignment.center,
         fit: BoxFit.contain,
-        callback: callback,
-        color: color,
+        callback: widget.callback,
+        color: widget.color,
       ),
     );
   }

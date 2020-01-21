@@ -29,4 +29,3 @@ flutter:
         - asset: third_party/RussoOne-Regular.ttf
   assets:
     - assets/
-    - assets/mountains/
