@@ -66,5 +66,9 @@ class _FogPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(CustomPainter oldDelegate) => true;
+  bool shouldRepaint(_FogPainter oldDelegate) {
+    return index != oldDelegate.index ||
+        color != oldDelegate.color ||
+        progress != oldDelegate.progress;
+  }
 }

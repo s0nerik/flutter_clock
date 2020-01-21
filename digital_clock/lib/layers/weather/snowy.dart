@@ -55,5 +55,9 @@ class _SnowflakePainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(CustomPainter oldDelegate) => true;
+  bool shouldRepaint(_SnowflakePainter oldDelegate) {
+    return index != oldDelegate.index ||
+        color != oldDelegate.color ||
+        progress != oldDelegate.progress;
+  }
 }

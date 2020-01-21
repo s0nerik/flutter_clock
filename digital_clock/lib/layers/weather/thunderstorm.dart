@@ -126,5 +126,9 @@ class _LightningPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(CustomPainter oldDelegate) => true;
+  bool shouldRepaint(_LightningPainter oldDelegate) {
+    return index != oldDelegate.index ||
+        color != oldDelegate.color ||
+        progress != oldDelegate.progress;
+  }
 }

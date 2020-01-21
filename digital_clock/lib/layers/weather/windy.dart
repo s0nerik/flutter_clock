@@ -54,5 +54,9 @@ class _WindPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(CustomPainter oldDelegate) => true;
+  bool shouldRepaint(_WindPainter oldDelegate) {
+    return index != oldDelegate.index ||
+        color != oldDelegate.color ||
+        progress != oldDelegate.progress;
+  }
 }
